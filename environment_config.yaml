@@ -1,0 +1,64 @@
+attributes:
+  multibackend:
+    value: true
+    label: 'Multi-backend enabled'
+    description: 'Pure Storage will be used in a multi-backend environment'
+    weight: 10
+    type: "checkbox"
+  pure_san_ip:
+    value: ''
+    label: 'Pure Storage Management IP (san_ip)'
+    description: 'The hostname (or IP address) for the Pure Storage Management VIP.'
+    weight: 20
+    type: "text"
+    regex:
+      source: '\S'
+      error: "IP field cannot be empty"
+  pure_api:
+    value: ''
+    label: 'API Token for Pure Storage (pure_api_token)'
+    description: 'Purity API token used to perform actions on the FlashArray.'
+    weight: 30
+    type: "text"
+    regex:
+      source: '\S'
+      error: "API token field cannot be empty"
+  pure_chap:
+    value: "true"
+    values:
+        - data: "true"
+          label: "True"
+          description: "Enables CHAP on iSCSI connections to FlashArray"
+        - data: "false"
+          label: "False"
+          description: "Disables CHAP on iSCSI connections to FlashArray"
+    label: "Pure Storage iSCSI CHAP (pure_use_chap)"
+    description: 'Enable/Disable CHAP on iSCSI connections to the FlashArray.'
+    weight: 60
+    type: "radio"
+  pure_multipath:
+    value: "true"
+    values:
+        - data: "true"
+          label: "True"
+          description: "Enables multipathing for image transfers"
+        - data: "false"
+          label: "False"
+          description: "Disables multipathing for image transfers"
+    label: "Pure Storage Multipath for Image Transfers (use_multipath_for_image_xfer)"
+    description: 'Enable/Disable multipathing for image transfers.'
+    weight: 60
+    type: "radio"
+  pure_nova_multipath:
+    value: "false"
+    values:
+        - data: "true"
+          label: "True"
+          description: "Enables iSCSI multipathing for Nova compute servers"
+        - data: "false"
+          label: "False"
+          description: "Disables iSCSI multipathing for Nova compute servers"
+    label: "iSCSI Multipathing for Nova Compute servers (iscsi_use_multipath)"
+    description: 'Enable/Disable iSCSI multipathing for Nova compute servers.'
+    weight: 60
+    type: "radio"

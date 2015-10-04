@@ -1,0 +1,18 @@
+# This tasks will be applied on controller nodes,
+# here you can also specify several roles, for example
+# ['cinder', 'compute'] will be applied only on
+# cinder and compute nodes
+- role: ['primary-controller', 'controller', 'cinder']
+  stage: post_deployment/6101
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/controller.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 360
+- role: ['compute']
+  stage: post_deployment/6101
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/compute.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 360

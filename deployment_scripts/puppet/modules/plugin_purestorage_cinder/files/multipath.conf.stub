@@ -1,0 +1,11 @@
+devices {
+    device {
+        vendor                "PURE"
+        path_selector         "round-robin 0"
+        path_grouping_policy  multibus
+        path_checker          tur
+        fast_io_fail_tmo      10
+        dev_loss_tmo          60
+        no_path_retry         0
+    }
+}

@@ -1,0 +1,9 @@
+# Recommended settings for Pure Storage FlashArray.
+# Use noop scheduler for high-performance solid-state storage
+ACTION=="add|change", KERNEL=="sd*[!0-9]", SUBSYSTEM=="block", ENV{ID_VENDOR}=="PURE", ATTR{queue/scheduler}="noop"
+# Reduce CPU overhead due to entropy collection
+ACTION=="add|change", KERNEL=="sd*[!0-9]", SUBSYSTEM=="block", ENV{ID_VENDOR}=="PURE", ATTR{queue/add_random}="0"
+# Spread CPU load by redirecting completions to originating CPU
+ACTION=="add|change", KERNEL=="sd*[!0-9]", SUBSYSTEM=="block", ENV{ID_VENDOR}=="PURE", ATTR{queue/rq_affinity}="2"
+# Set the HBA timeout to 60 seconds
+ACTION=="add", SUBSYSTEMS=="scsi", ATTRS{model}=="FlashArray      ", RUN+="/bin/sh -c 'echo 60 > /sys$DEVPATH/device/timeout'"

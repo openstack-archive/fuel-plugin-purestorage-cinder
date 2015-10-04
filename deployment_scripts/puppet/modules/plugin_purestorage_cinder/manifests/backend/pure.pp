@@ -1,4 +1,3 @@
-class: cinder::backend::pure
 #
 # Configures Cinder volume PureStorage driver.
 # Parameters are particular to each volume driver.
@@ -13,7 +12,7 @@ class: cinder::backend::pure
 #
 # [*volume_backend_name*]
 #   (optional) Allows for the volume_backend_name to be separate of $name.
-#   Defaults to: $name
+#   Defaults to: $backend_name
 #
 # [*use_multipath_for_image_xfer*]
 #   (optional) .
@@ -29,22 +28,22 @@ class: cinder::backend::pure
 #   Example :
 #     { 'pure_backend/param1' => { 'value' => value1 } }
 #
-define cinder::backend::pure(
-  $san_ip,
-  $pure_api_token,
-  $volume_backend_name          = $name,
+class plugin_purestorage_cinder::backend::pure(
+  $san_ip                       = "",
+  $pure_api_token               = "",
+  $volume_backend_name          = $backend_name,
   $pure_use_chap                = false,
   $use_multipath_for_image_xfer = true,
   $extra_options                = {},
 ) {
 
   cinder_config {
-    "${name}/volume_backend_name":           value => $volume_backend_name;
-    "${name}/volume_driver":                 value => $volume_driver;
-    "${name}/san_ip":                        value => $san_ip;
-    "${name}/pure_api_token":                value => $pure_api_token, secret => true;
-    "${name}/pure_use_chap":                 value => $pure_use_chap;
-    "${name}/use_multipath_for_image_xfer":  value => $use_multipath_for_image_xfer ;
+    "${backend_name}/volume_backend_name":           value => $volume_backend_name;
+    "${backend_name}/volume_driver":                 value => $volume_driver;
+    "${backend_name}/san_ip":                        value => $san_ip;
+    "${backend_name}/pure_api_token":                value => $pure_api_token, secret => true;
+    "${backend_name}/pure_use_chap":                 value => $pure_use_chap;
+    "${backend_name}/use_multipath_for_image_xfer":  value => $use_multipath_for_image_xfer ;
   }
 
   create_resources('cinder_config', $extra_options)

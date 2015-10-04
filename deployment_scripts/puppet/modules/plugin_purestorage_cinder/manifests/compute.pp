@@ -18,6 +18,8 @@ class plugin_purestorage_cinder::compute {
   include plugin_purestorage_cinder::common
   include ::nova::params
 
+  $plugin_settings = hiera('fuel-plugin-purestorage-cinder')
+
   service { 'nova-compute':
     ensure     => 'running',
     name       => $::nova::params::compute_service_name,

@@ -19,13 +19,14 @@ class plugin_purestorage_cinder::controller (
 ) {
 
     include plugin_purestorage_cinder::common
+    include plugin_purestorage_cinder::backend::pure
     include ::cinder::params
     include ::cinder::client
 
     package {"purestorage":
       ensure => "installed",
       provider => pip
-    )
+    }
 
     $plugin_settings = hiera('fuel-plugin-purestorage-cinder')
 
@@ -45,7 +46,7 @@ class plugin_purestorage_cinder::controller (
       $section = 'DEFAULT'
     }
 
-    cinder::backend::pure { $section :
+    plugin_purestorage_cinder::backend::pure { $section :
       san_ip                        => $plugin_settings['pure_san_ip'],
       pure_api_token                => $plugin_settings['pure_api'],
       volume_backend_name           => $section,

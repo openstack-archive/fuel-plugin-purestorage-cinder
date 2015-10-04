@@ -30,6 +30,7 @@ class plugin_purestorage_cinder::common {
         enable     => true,
         hasrestart => true,
         require    => Package[$plugin_purestorage_cinder::params::iscsi_package_name],
+      }
       file {'99-pure-storage.rules':
         path    => '/lib/udev/rules.d/99-pure-storage.rules',
         mode    => '0644',

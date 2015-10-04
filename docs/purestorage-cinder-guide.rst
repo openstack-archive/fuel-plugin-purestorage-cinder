@@ -54,7 +54,8 @@ Pure Storage Cinder Plugin installation
 2. Copy the plugin on already installed Fuel Master node. If you do not
    have the Fuel Master node yet, see Quick Start Guide
 
-  ::
+   ::
+
      scp  fuel-plugin-purestorage-cinder-1.0-1.0.0.noarch.rpm root@:<the_Fuel_Master_node_IP>:/tmp
 
 3. Log into the Fuel Master node.

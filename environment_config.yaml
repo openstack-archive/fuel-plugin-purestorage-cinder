@@ -23,6 +23,19 @@ attributes:
     regex:
       source: '\S'
       error: "API token field cannot be empty"
+  pure_protocol:
+    value: "iSCSI"
+    values:
+        - data: "iSCSI"
+          label: "iSCSI"
+          description: "Enables iSCSI protocol for block storage volumes"
+#        - data: "FC"
+#          label: "Fibre Channel"
+#          description: "Enables Fibre Channel protocol for block storage volumes"
+    label: "Protocol for Pure Storage block access"
+    description: 'Select block storage protocl for FlashArray.'
+    weight: 60
+    type: "radio"
   pure_chap:
     value: "true"
     values:

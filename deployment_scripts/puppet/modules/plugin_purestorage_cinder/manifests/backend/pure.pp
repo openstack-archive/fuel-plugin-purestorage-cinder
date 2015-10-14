@@ -12,7 +12,7 @@
 #
 # [*volume_backend_name*]
 #   (optional) Allows for the volume_backend_name to be separate of $name.
-#   Defaults to: $backend_name
+#   Defaults to: $name
 #
 # [*use_multipath_for_image_xfer*]
 #   (optional) .
@@ -28,22 +28,29 @@
 #   Example :
 #     { 'pure_backend/param1' => { 'value' => value1 } }
 #
-class plugin_purestorage_cinder::backend::pure(
-  $san_ip                       = "",
-  $pure_api_token               = "",
-  $volume_backend_name          = $backend_name,
-  $pure_use_chap                = false,
+
+define plugin_purestorage_cinder::backend::pure(
+  $san_ip,
+  $pure_api_token,
+  $volume_backend_name          = $name,
+  $pure_storage_protocol        = 'iSCSI',
+  $use_chap_auth                = false,
   $use_multipath_for_image_xfer = true,
   $extra_options                = {},
 ) {
 
+  $volume_driver = $pure_storage_protocol ? {
+    'FC'    => 'cinder.volume.drivers.pure.PureFCDriver',
+    'iSCSI' => 'cinder.volume.drivers.pure.PureISCSIDriver'
+  }
+
   cinder_config {
-    "${backend_name}/volume_backend_name":           value => $volume_backend_name;
-    "${backend_name}/volume_driver":                 value => $volume_driver;
-    "${backend_name}/san_ip":                        value => $san_ip;
-    "${backend_name}/pure_api_token":                value => $pure_api_token, secret => true;
-    "${backend_name}/pure_use_chap":                 value => $pure_use_chap;
-    "${backend_name}/use_multipath_for_image_xfer":  value => $use_multipath_for_image_xfer ;
+    "${name}/volume_backend_name":           value => $volume_backend_name;
+    "${name}/volume_driver":                 value => $volume_driver;
+    "${name}/san_ip":                        value => $san_ip;
+    "${name}/pure_api_token":                value => $pure_api_token, secret => true;
+    "${name}/use_chap_auth":                 value => $use_chap_auth;
+    "${name}/use_multipath_for_image_xfer":  value => $use_multipath_for_image_xfer ;
   }
 
   create_resources('cinder_config', $extra_options)

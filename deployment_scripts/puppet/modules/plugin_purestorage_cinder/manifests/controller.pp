@@ -19,7 +19,6 @@ class plugin_purestorage_cinder::controller (
 ) {
 
     include plugin_purestorage_cinder::common
-    include plugin_purestorage_cinder::backend::pure
     include ::cinder::params
     include ::cinder::client
 
@@ -52,7 +51,7 @@ class plugin_purestorage_cinder::controller (
       volume_backend_name           => $section,
       use_chap_auth                 => $plugin_settings['pure_chap'],
       use_multipath_for_image_xfer  => $plugin_settings['pure_multipath'],
-      volume_driver                 => 'cinder.volume.drivers.pure.PureISCSIDriver'
+      pure_storage_protocol         => $plugin_settings['pure_protocol'],
     }
 
     Cinder_config<||> ~> Service['cinder_volume']

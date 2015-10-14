@@ -1,5 +1,5 @@
 name: fuel-plugin-purestorage-cinder
-title: Fuel plugin to enable Pure Storage driver in Cinder
+title: Pure Storage driver for Cinder
 version: '1.0.0'
 description: Enables the Pure Storage driver in Cinder
 fuel_version: ['7.0']

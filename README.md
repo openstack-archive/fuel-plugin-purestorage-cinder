@@ -18,7 +18,7 @@ Requirements
 | Mirantis OpenStack compatibility                         | >= 7.0          |
 | Access to FlashArray VIP via cinder-volume node          |                 |
 | Access to FlashArray VIP via compute/cinder-volume nodes |                 |
-| iSCSI or FC initiator on all compute/cinder-volume nodes |                 |
+| iSCSI initiator on all compute/cinder-volume nodes       |                 |
 
 Limitations
 -----------
@@ -27,6 +27,7 @@ Pure Storage configuration
 ---------------------
 
 Prior to deployment ensure the following items are complete:
+
 1. For an iSCSI implementation ensure the Pure Storage FlashArray can route 10G Storage Network
    to all Compute nodes as well as the Cinder Control/Manager node.
 2. Create an AD/LDAP account for the Pure Storage cluster to use as the OpenStack Administrator
@@ -37,8 +38,9 @@ Pure Storage Cinder plugin installation
 ---------------------------
 
 All of the needed code for using Pure Storage in an OpenStack deployment is
-included in the upstream OpenStack distribution.  There are no additional
-libraries, software packages or licenses.
+included in the upstream OpenStack distributioni with the exception of
+the Pure Storage Python SDK which is installed by this plugin.  There are no additional
+libraries, software packages or licenses required beyond using this plugin.
 
 Pure Storage plugin configuration
 ----------------------------

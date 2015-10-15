@@ -78,15 +78,15 @@ Implementation
 ==============
 
 The plugin generates the approriate cinder.conf stanzas to enable the Pure Storage
-FlashArray within OpenStack. The purestorage.pypi module is required as a pre-requisite
-The purestorage python module, available on PyPI https://pypi.python.org/pypi/purestorage,
-is required for the Pure Storage driver to be correctly implemented. The driver itself
+FlashArray within OpenStack. The purestorage.pypi module is installed as part of the plugin.
+plugin as this is a pre-requisite of the Pure Storage Cinder driver. The driver itself
 is included in the main OpenStack distribution.
 
-Plugin has two tasks. Each task per role. They are run in the following order:
+Plugin has three tasks. Each task per role. They are run in the following order:
 
-* The first task installs and configures cinder-volume on Primary Controller.
-* The second task installs and configures cinder-volume on Controller nodes.
+* The first task configures cinder-volume on Primary Controller.
+* The second task configures cinder-volume on Cinder nodes.
+* The third task configures nova-compute on Nova nodes.
 
 Cinder-volume service is installed on all Controller nodes and is managed by
 Pacemaker. It runs in active/passive mode where only one instance is active.

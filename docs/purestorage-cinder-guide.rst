@@ -77,7 +77,7 @@ Pure Storage Cinder Plugin installation
 #. Open the Settings tab of the Fuel Web UI and scroll down the page. Select the
    Fuel plugin to enable Pure Storage driver in Cinder plugin checkbox.
 
-  .. image:: figures/cinder-purestorage-plugin.png
+     .. image:: figures/cinder-purestorage-plugin.png
          :width: 100%
 
 #. Enter the Purity API Token and the IP address of the management VIP of the Pure Storage FlashArray.

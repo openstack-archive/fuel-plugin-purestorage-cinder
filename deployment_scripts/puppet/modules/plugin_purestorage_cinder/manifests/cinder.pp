@@ -13,7 +13,7 @@
 #    under the License.
 #
 
-class plugin_purestorage_cinder::controller (
+class plugin_purestorage_cinder::cinder (
     $backend_name  = 'pure',
     $backends      = ''
 ) {

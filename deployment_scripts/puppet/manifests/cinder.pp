@@ -14,4 +14,4 @@
 #    under the License.
 #
 
-include plugin_purestorage_cinder::controller
+include plugin_purestorage_cinder::cinder

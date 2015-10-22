@@ -13,7 +13,7 @@
 #    under the License.
 #
 
-class plugin_purestorage_cinder::controller (
+class plugin_purestorage_cinder::cinder (
     $backend_name  = 'pure',
     $backends      = ''
 ) {
@@ -45,7 +45,7 @@ class plugin_purestorage_cinder::controller (
       $section = 'DEFAULT'
     }
 
-    plugin_purestorage_cinder::backend::pure { $section :
+    cinder::backend::pure { $section :
       san_ip                        => $plugin_settings['pure_san_ip'],
       pure_api_token                => $plugin_settings['pure_api'],
       volume_backend_name           => $section,

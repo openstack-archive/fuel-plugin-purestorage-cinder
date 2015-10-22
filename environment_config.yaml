@@ -1,15 +1,28 @@
 attributes:
+  glance_image_cache:
+    value: 'false'
+    values:
+        - data: 'true'
+          label: "True"
+          description: 'Enable the Glance Image-Cache for Cinder backend'
+        - data: "false"
+          label: "False"
+          description: 'Enable the Glance Image-Cache for Cinder backend'
+    label: 'Glance Image-Cache'
+    description: 'Configure the Glance Image-Cache for Cinder'
+    weight: 10
+    type: "radio"
   multibackend:
     value: true
     label: 'Multi-backend enabled'
     description: 'Pure Storage will be used in a multi-backend environment'
-    weight: 10
+    weight: 20
     type: "checkbox"
   pure_san_ip:
     value: ''
     label: 'Pure Storage Management IP (san_ip)'
     description: 'The hostname (or IP address) for the Pure Storage Management VIP.'
-    weight: 20
+    weight: 30
     type: "text"
     regex:
       source: '\S'
@@ -18,7 +31,7 @@ attributes:
     value: ''
     label: 'API Token for Pure Storage (pure_api_token)'
     description: 'Purity API token used to perform actions on the FlashArray.'
-    weight: 30
+    weight: 40
     type: "text"
     regex:
       source: '\S'
@@ -29,9 +42,9 @@ attributes:
         - data: "iSCSI"
           label: "iSCSI"
           description: "Enables iSCSI protocol for block storage volumes"
-#        - data: "FC"
-#          label: "Fibre Channel"
-#          description: "Enables Fibre Channel protocol for block storage volumes"
+        - data: "FC"
+          label: "Fibre Channel"
+          description: "Enables Fibre Channel protocol for block storage volumes"
     label: "Protocol for Pure Storage block access"
     description: 'Select block storage protocol for FlashArray.'
     weight: 60

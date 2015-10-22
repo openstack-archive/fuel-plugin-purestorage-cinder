@@ -68,6 +68,8 @@ Other deployer impact
 
 The deployer should configure the IP addresses on the Pure Storage array before
 they deploy the Fuel Plugin to the controllers.
+The fibre channel Zone Manager must be configured should FC be the chosen block
+storage protocol.
 
 Developer impact
 ----------------
@@ -111,7 +113,7 @@ Work Items
 Dependencies
 ============
 
-* Fuel 7.0 and higher.
+* Fuel 8.0 and higher.
 
 Testing
 =======

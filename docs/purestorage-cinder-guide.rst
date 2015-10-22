@@ -1,5 +1,5 @@
 **************************************************************
-Guide to the Pure Storage Cinder Plugin version 1.0.0 for Fuel
+Guide to the Pure Storage Cinder Plugin version 2.0.0 for Fuel
 **************************************************************
 
 This document provides instructions for installing, configuring and using
@@ -29,7 +29,7 @@ Requirements
 =======================   ==================
 Requirement                 Version/Comment
 =======================   ==================
-Fuel                      7.0
+Fuel                      8.0
 
 ============================================
 
@@ -56,7 +56,7 @@ Pure Storage Cinder Plugin installation
 
    ::
 
-     scp  fuel-plugin-purestorage-cinder-1.0-1.0.0.noarch.rpm root@:<the_Fuel_Master_node_IP>:/tmp
+     scp  fuel-plugin-purestorage-cinder-2.0-2.0.0.noarch.rpm root@:<the_Fuel_Master_node_IP>:/tmp
 
 3. Log into the Fuel Master node.
 4. Install the plugin:
@@ -64,7 +64,7 @@ Pure Storage Cinder Plugin installation
    ::
 
      cd /tmp
-     fuel plugins --install /tmp/fuel-plugin-purestorage-cinder-1.0-1.0.0.noarch.rpm
+     fuel plugins --install /tmp/fuel-plugin-purestorage-cinder-2.0-2.0.0.noarch.rpm
 
 4. After plugin is installed, create a new OpenStack environment.
 5. Configure your environment.

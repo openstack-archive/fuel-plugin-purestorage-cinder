@@ -29,9 +29,6 @@ attributes:
         - data: "iSCSI"
           label: "iSCSI"
           description: "Enables iSCSI protocol for block storage volumes"
-#        - data: "FC"
-#          label: "Fibre Channel"
-#          description: "Enables Fibre Channel protocol for block storage volumes"
     label: "Protocol for Pure Storage block access"
     description: 'Select block storage protocol for FlashArray.'
     weight: 60

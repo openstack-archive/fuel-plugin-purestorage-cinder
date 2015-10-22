@@ -1,9 +1,9 @@
 # Deployment tasks
-- role: [primary-controller, controller, cinder]
+- role: [cinder]
   stage: post_deployment/6000
   type: puppet
   parameters:
-    puppet_manifest: puppet/manifests/controller.pp
+    puppet_manifest: puppet/manifests/cinder.pp
     puppet_modules:  "puppet/modules/:/etc/puppet/modules/"
     timeout: 360
 

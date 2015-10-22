@@ -1,28 +1,15 @@
 attributes:
-  glance_image_cache:
-    value: 'false'
-    values:
-        - data: 'true'
-          label: "True"
-          description: 'Enable the Glance Image-Cache for Cinder backend'
-        - data: "false"
-          label: "False"
-          description: 'Enable the Glance Image-Cache for Cinder backend'
-    label: 'Glance Image-Cache'
-    description: 'Configure the Glance Image-Cache for Cinder'
-    weight: 10
-    type: "radio"
   multibackend:
     value: true
     label: 'Multi-backend enabled'
     description: 'Pure Storage will be used in a multi-backend environment'
-    weight: 20
+    weight: 10
     type: "checkbox"
   pure_san_ip:
     value: ''
     label: 'Pure Storage Management IP (san_ip)'
     description: 'The hostname (or IP address) for the Pure Storage Management VIP.'
-    weight: 30
+    weight: 15
     type: "text"
     regex:
       source: '\S'
@@ -31,11 +18,48 @@ attributes:
     value: ''
     label: 'API Token for Pure Storage (pure_api_token)'
     description: 'Purity API token used to perform actions on the FlashArray.'
-    weight: 40
+    weight: 20
     type: "text"
     regex:
       source: '\S'
       error: "API token field cannot be empty"
+  pure_glance_image_cache:
+    value: "false"
+    values:
+        - data: "false"
+          label: "False"
+          description: 'Disable the Glance Image-Cache for Cinder backend'
+        - data: "true"
+          label: "True"
+          description: 'Enable the Glance Image-Cache for Cinder backend'
+    label: 'Glance Image-Cache (image_volume_cache_enabled)'
+    description: 'Configure the Glance Image-Cache for Cinder'
+    weight: 30
+    type: "radio"
+  pure_glance_cache_count:
+    value: '0'
+    label: 'Glance Image Cache Max Count (image_volume_cache_max_count)'
+    description: 'Maximum number of images in Glance Image Cache (0 = no limit)'
+    weight: 35
+    type: "text"
+    restrictions:
+       - condition: "settings:fuel-plugin-purestorage-cinder.pure_glance_image_cache.value != 'true'"
+         action: "hide"
+    regex:
+      source: '^[0-9]+$'
+      error: "Only numbers are permitted"
+  pure_glance_cache_size:
+    value: '0'
+    label: 'Glance Image Cache Size (image_volume_cache_max_size_gb)'
+    description: 'Maximum size for Glance Image Cache [GB] 90 = no limit)'
+    weight: 35
+    type: "text"
+    restrictions:
+       - condition: "settings:fuel-plugin-purestorage-cinder.pure_glance_image_cache.value != 'true'"
+         action: "hide"
+    regex:
+      source: '^[0-9]+$'
+      error: "Only numbers are permitted"
   pure_protocol:
     value: "iSCSI"
     values:

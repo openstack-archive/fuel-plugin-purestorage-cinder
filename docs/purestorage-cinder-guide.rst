@@ -103,4 +103,4 @@ Appendix
 
 #. `OpenStack Cinder Driver for Pure Storage Flash Array <http://stackalytics.com/report/driverlog?project_id=openstack%2Fcinder&vendor=Pure%20iSCSI%2FFC%20Storage>`_
 
-#. `Pure Storage Flash Array User Guide <http://community.purestorage.com/ekgav24373/attachments/ekgav24373/pure-storage-knowledge/294/1/Purity%204.5%20FlashArray%20User%20Guide.pdf>_`
+#. `Pure Storage Flash Array User Guide <http://community.purestorage.com/ekgav24373/attachments/ekgav24373/pure-storage-knowledge/294/1/Purity%204.5%20FlashArray%20User%20Guide.pdf>`_

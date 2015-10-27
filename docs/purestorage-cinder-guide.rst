@@ -82,7 +82,7 @@ Pure Storage Cinder Plugin installation
 
 #. Enter the Purity API Token and the IP address of the management VIP of the Pure Storage FlashArray.
 
-#. Select the defaults for all other Pure Storage options.
+#. Select the values for all other Pure Storage options.
 
 User Guide
 ==========

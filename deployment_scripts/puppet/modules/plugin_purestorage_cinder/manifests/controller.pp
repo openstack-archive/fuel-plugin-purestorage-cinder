@@ -13,7 +13,7 @@
 #    under the License.
 #
 
-class plugin_purestorage_cinder::cinder (
+class plugin_purestorage_cinder::controller (
     $backend_name  = 'pure',
     $backends      = ''
 ) {
@@ -25,6 +25,10 @@ class plugin_purestorage_cinder::cinder (
     package {"purestorage":
       ensure => "installed",
       provider => pip
+    }
+
+    cinder_config {
+      "DEFAULT/host": value => "str:pure";
     }
 
     $plugin_settings = hiera('fuel-plugin-purestorage-cinder')

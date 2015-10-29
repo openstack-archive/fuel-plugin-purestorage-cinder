@@ -27,10 +27,6 @@ class plugin_purestorage_cinder::controller (
       provider => pip
     }
 
-    cinder_config {
-      "DEFAULT/host": value => "str:pure";
-    }
-
     $plugin_settings = hiera('fuel-plugin-purestorage-cinder')
 
     if $::cinder::params::volume_package {
@@ -56,6 +52,22 @@ class plugin_purestorage_cinder::controller (
       use_chap_auth                 => $plugin_settings['pure_chap'],
       use_multipath_for_image_xfer  => $plugin_settings['pure_multipath'],
       pure_storage_protocol         => $plugin_settings['pure_protocol'],
+      extra_options                 => { "$section/host" => { value => $section },
+                                         "Section/image_volume_cache_enabled" => { value => $plugin_settings["pure_glance_image_cache"] }
+    }
+
+    if $plugin_settings['image_volume_cache_enabled'] {
+      cinder::backend::pure { $section :
+        extra_options               => { "Section/image_volume_cache_max_count" => { value => $plugin_settings["pure_glance_cache_count"] },
+                                         "Section/image_volume_cache_max_size_gb" => { value => $plugin_settings["pure_glance_cache_size"] }
+# SD - insert cinder internal tenant KVP pairs here for DEFAULT stanza
+# Create the project and user here: use keystone_tenant(ensure=>present) and keystone_user(ensure=>present) but how do I get back the IDs. Also do I need to do keystone_role ?
+# Parameters to set will be:
+#     cinder_internal_tenant_project_id = PROJECT_ID
+#     cinder_internal_tenant_user_id = USER_ID
+
+        }
+       }
     }
 
     Cinder_config<||> ~> Service['cinder_volume']

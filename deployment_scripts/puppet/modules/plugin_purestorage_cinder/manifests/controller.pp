@@ -55,6 +55,7 @@ class plugin_purestorage_cinder::controller (
       extra_options                 => { "$section/host" => { value => $section },
                                          "$section/image_volume_cache_enabled" => { value => $plugin_settings["pure_glance_image_cache"] }
     }
+    }
 
     if $plugin_settings['image_volume_cache_enabled'] {
       cinder::backend::pure { $section :

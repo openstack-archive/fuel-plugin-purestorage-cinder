@@ -1,0 +1,9 @@
+Verified+2: Jenkins
+Code-Review+2: Patrick East <patrick.east@purestorage.com>
+Workflow+1: Patrick East <patrick.east@purestorage.com>
+Code-Review+2: Simon Dodsley <simon@purestorage.com>
+Submitted-by: Jenkins
+Submitted-at: Fri, 06 Nov 2015 00:30:30 +0000
+Reviewed-on: https://review.openstack.org/242279
+Project: openstack/fuel-plugin-purestorage-cinder
+Branch: refs/heads/stable/kilo

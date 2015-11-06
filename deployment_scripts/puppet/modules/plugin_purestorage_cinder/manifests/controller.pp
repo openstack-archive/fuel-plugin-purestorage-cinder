@@ -27,10 +27,6 @@ class plugin_purestorage_cinder::controller (
       provider => pip
     }
 
-    cinder_config {
-      "DEFAULT/host": value => "str:pure";
-    }
-
     $plugin_settings = hiera('fuel-plugin-purestorage-cinder')
 
     if $::cinder::params::volume_package {
@@ -56,6 +52,8 @@ class plugin_purestorage_cinder::controller (
       use_chap_auth                 => $plugin_settings['pure_chap'],
       use_multipath_for_image_xfer  => $plugin_settings['pure_multipath'],
       pure_storage_protocol         => $plugin_settings['pure_protocol'],
+      extra_options                 => { "$section/host" => { value => $section }
+      }
     }
 
     Cinder_config<||> ~> Service['cinder_volume']

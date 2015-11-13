@@ -68,7 +68,16 @@ Pure Storage Cinder Plugin installation
    ::
 
      cd /tmp
-     fuel plugins --install /tmp/fuel-plugin-purestorage-cinder-2.0-2.0.0.noarch.rpm
+     fuel plugins --install fuel-plugin-purestorage-cinder-2.0-2.0.0.noarch.rpm
+
+#. Check if the plugin was installed successfully
+
+  ::
+
+    # fuel plugins
+    id | name                           | version | package_version
+    ---|--------------------------------|---------|----------------
+     1 | fuel-plugin-purestorage-cinder | 1.0.0   | 2.0.0
 
 #. After the plugin is installed, `create a new OpenStack environment <https://docs.mirantis.com/openstack/fuel/fuel-7.0/user-guide.html#create-a-new-openstack-environment>`_ using the Fuel UI Wizard.
 
@@ -78,11 +87,20 @@ Pure Storage Cinder Plugin installation
    Fuel plugin to enable Pure Storage driver in Cinder plugin checkbox.
 
      .. image:: figures/cinder-purestorage-liberty-plugin.png
+=======
+#. After the plugin is installed, `create a new OpenStack environment <https://docs.mirantis.com/openstack/fuel/fuel-7.0/user-guide.html#create-a-new-openstack-environment>`_ using the Fuel UI Wizard.
+
+#. `Configure your environment <https://docs.mirantis.com/openstack/fuel/fuel-7.0/user-guide.html#configure-your-environment>`_.
+
+#. Open the Settings tab of the Fuel Web UI and scroll down the page. Select the
+   Fuel plugin to enable Pure Storage driver in Cinder plugin checkbox.
+
+  .. image:: figures/fuel-settings-page.png
          :width: 100%
 
 #. Enter the Purity API Token and the IP address of the management VIP of the Pure Storage FlashArray.
 
-#. Select the values for all other Pure Storage options.
+#. Select the defaults for all other Pure Storage options.
 
 User Guide
 ==========

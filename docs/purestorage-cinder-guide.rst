@@ -77,7 +77,7 @@ Pure Storage Cinder Plugin installation
     # fuel plugins
     id | name                           | version | package_version
     ---|--------------------------------|---------|----------------
-     1 | fuel-plugin-purestorage-cinder | 1.0.0   | 2.0.0
+     1 | fuel-plugin-purestorage-cinder | 2.0.0   | 2.0.0
 
 #. After the plugin is installed, `create a new OpenStack environment <https://docs.mirantis.com/openstack/fuel/fuel-7.0/user-guide.html#create-a-new-openstack-environment>`_ using the Fuel UI Wizard.
 

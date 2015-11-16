@@ -1,6 +1,6 @@
-**************************************************************
-Guide to the Pure Storage Cinder Plugin version 1.0.0 for Fuel
-**************************************************************
+*********************************************************************
+Guide to the Pure Storage Cinder Plugin version 1.0-1.0.0-1 for Fuel
+*********************************************************************
 
 This document provides instructions for installing, configuring and using
 Pure Storage Cinder plugin for Fuel.

@@ -10,7 +10,7 @@ groups: ['storage::cinder']
 
 releases:
   - os: ubuntu
-    version: 2015.2-8.0
+    version: 2015.1-8.0
     mode: ['ha', 'multinode']
     deployment_scripts_path: deployment_scripts/
     repository_path: repositories/ubuntu

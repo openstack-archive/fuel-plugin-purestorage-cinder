@@ -74,7 +74,7 @@ attributes:
     weight: 60
     type: "radio"
   pure_chap:
-    value: "true"
+    value: "false"
     values:
         - data: "true"
           label: "True"

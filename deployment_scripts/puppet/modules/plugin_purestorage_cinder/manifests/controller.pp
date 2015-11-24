@@ -21,6 +21,7 @@ class plugin_purestorage_cinder::controller (
     include plugin_purestorage_cinder::common
     include ::cinder::params
     include ::cinder::client
+    include ::keystone::client
 
     package {"purestorage":
       ensure => "installed",
@@ -52,23 +53,40 @@ class plugin_purestorage_cinder::controller (
       use_chap_auth                 => $plugin_settings['pure_chap'],
       use_multipath_for_image_xfer  => $plugin_settings['pure_multipath'],
       pure_storage_protocol         => $plugin_settings['pure_protocol'],
-      extra_options                 => { "$section/host" => { value => $section },
+      extra_options                 => { "$section/backend_host" => { value => $section },
                                          "$section/image_volume_cache_enabled" => { value => $plugin_settings["pure_glance_image_cache"] }
     }
     }
 
     if $plugin_settings['image_volume_cache_enabled'] {
+        keystone_tenant { 'cinder_internal_tenant':
+                             ensure  => present,
+                             description => 'Cinder Internal Tenant',
+                             enabled => True,
+        }
+        keystone_user { 'cinder_internal_user':
+                             ensure  => present,
+                             description => 'Cinder Internal User',
+                             enabled => True,
+        }
+        keystone_role { 'admin':
+                             ensure => present,
+        }
+        keystone_user_role { 'cinder_internal_user@cinder_internal_tenant':
+                             roles => ['admin'],
+                             ensure => present
+        }
+# How do I get back the IDs.
+       }
+      cinder::backend::pure { DEFAULT :
+        extra_options               => { "DEFAULT/cinder_internal_tenant_project_id" => { value => "$PROJECT_ID"] },
+                                         "DEFALUT/cinder_internal_tenant_user_id" => { value => "$USER_ID"] }
+        }
+       }
       cinder::backend::pure { $section :
         extra_options               => { "$section/image_volume_cache_max_count" => { value => $plugin_settings["pure_glance_cache_count"] },
                                          "$section/image_volume_cache_max_size_gb" => { value => $plugin_settings["pure_glance_cache_size"] }
-# SD - insert cinder internal tenant KVP pairs here for DEFAULT stanza
-# Create the project and user here: use keystone_tenant(ensure=>present) and keystone_user(ensure=>present) but how do I get back the IDs. Also do I need to do keystone_role ?
-# Parameters to set will be:
-#     cinder_internal_tenant_project_id = PROJECT_ID
-#     cinder_internal_tenant_user_id = USER_ID
-
         }
-       }
     }
 
     Cinder_config<||> ~> Service['cinder_volume']

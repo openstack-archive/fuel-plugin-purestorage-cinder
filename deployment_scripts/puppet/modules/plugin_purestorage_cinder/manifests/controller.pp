@@ -58,6 +58,7 @@ class plugin_purestorage_cinder::controller (
     }
     }
 
+# Insert Glance Image Cache for Cinder settings
     if $plugin_settings['image_volume_cache_enabled'] {
         keystone_tenant { 'cinder_internal_tenant':
                              ensure  => present,
@@ -87,6 +88,104 @@ class plugin_purestorage_cinder::controller (
         extra_options               => { "$section/image_volume_cache_max_count" => { value => $plugin_settings["pure_glance_cache_count"] },
                                          "$section/image_volume_cache_max_size_gb" => { value => $plugin_settings["pure_glance_cache_size"] }
         }
+    }
+
+# If protocol is FC hen meed to add zoning_mode. Put in $section as this has already been set by multibackend
+    if $plugin_settings['pure_protocol'] == 'FC' {
+      cinder_config {
+        "$section/zoning_mode": value => "Fabric";
+      }
+# Now add in the [fc-zone-manager] stanza
+    case $plugin_settings['pure_switch_vendor'] {
+        'Brocade':    {
+                         cinder_config {
+                           "fc-zone-manager/brcd_sb_connector": value => "cinder.zonemanager.drivers.brocade.brcd_fc_zone_client_cli.BrcdFCZoneClientCLI";
+                           "fc-zone-manager/fc_san_lookup_service": value => "cinder.zonemanager.drivers.brocade.brcd_fc_san_lookup_service.BrcdFCSanLookupService";
+                           "fc-zone-manager/zone_driver": value => "cinder.zonemanager.drivers.brocade.brcd_fc_zone_driver.BrcdFCZoneDriver";
+                         }
+                      }
+        'Cisco':      {
+                         cinder_config {
+                           "fc-zone-manager/cisco_sb_connector": value => "cinder.zonemanager.drivers.cisco.cisco_fc_zone_client_cli.CiscoFCZoneClientCLI";
+                           "fc-zone-manager/fc_san_lookup_service": value => "cinder.zonemanager.drivers.cisco.cisco_fc_san_lookup_service.CiscoFCSanLookupService";
+                           "fc-zone-manager/zone_driver": value => "cinder.zonemanager.drivers.cisco.cisco_fc_zone_driver.CiscoFCZoneDriver";
+                         }
+                      }
+    }
+    case $plugin_settings['pure_fabric_count'] {
+        '1':   {
+                  cinder_config {
+                    "fc-zone-manager/fc_fabric_names": value => $plugin_settings["pure_fabric_name_1"];
+                  }
+               }
+        '2':   {
+                  cinder_config {
+                    "fc-zone-manager/fc_fabric_names": value => join($plugin_settings["pure_fabric_name_1"],', ',$plugin_settings["pure_fabric_name_2"]);
+                  }
+               }
+    }
+
+    $fabric_zone_1 = $plugin_settings["pure_fabric_name_1"]
+    $fabric_zone_2 = $plugin_settings["pure_fabric_name_2"]
+
+# Now add in stanzas for each fabric zone
+    case $plugin_settings['pure_switch_vendor'] {
+        'Brocade':    {
+                        case $plugin_settings['pure_fabric_count'] {
+                           '1':   {
+                                     cinder_config {
+                                        "$fabric_zone_1/fc_fabric_address": value => $plugin_settings["pure_fabric_ip_1"];
+                                        "$fabric_zone_1/fc_fabric_user": value => $plugin_settings["pure_username_1"];
+                                        "$fabric_zone_1/fc_fabric_password": value => $plugin_settings["pure_password_1"];
+                                        "$fabric_zone_1/fc_fabric_port": value => '22';
+                                        "$fabric_zone_1/principal_switch_wwn": value => $plugin_settings["pure_principal_wwn_1"];
+                                        "$fabric_zone_1/zoning_policy": value => 'initiator-target';
+                                        "$fabric_zone_1/zone_activate": value => 'true';
+                                        "$fabric_zone_1/zone_name_prefix": value => join($plugin_settings["pure_fabric_name_1"],'_');
+                                     }
+                                  }
+                           '2':   {
+                                     cinder_config {
+                                        "$fabric_zone_2/fc_fabric_address": value => $plugin_settings["pure_fabric_ip_2"];
+                                        "$fabric_zone_2/fc_fabric_user": value => $plugin_settings["pure_username_2"];
+                                        "$fabric_zone_2/fc_fabric_password": value => $plugin_settings["pure_password_2"];
+                                        "$fabric_zone_2/fc_fabric_port": value => '22';
+                                        "$fabric_zone_2/principal_switch_wwn": value => $plugin_settings["pure_principal_wwn_2"];
+                                        "$fabric_zone_2/zoning_policy": value => 'initiator-target';
+                                        "$fabric_zone_2/zone_activate": value => 'true';
+                                        "$fabric_zone_2/zone_name_prefix": value => join($plugin_settings["pure_fabric_name_2"],'_');
+                                     }
+                                  }
+                        }
+                      }
+        'Cisco':      {
+                        case $plugin_settings['pure_fabric_count'] {
+                           '1':   {
+                                     cinder_config {
+                                        "$fabric_zone_1/cisco_fc_fabric_address": value => $plugin_settings["pure_fabric_ip_1"];
+                                        "$fabric_zone_1/cisco_fc_fabric_user": value => $plugin_settings["pure_username_1"];
+                                        "$fabric_zone_1/cisco_fc_fabric_password": value => $plugin_settings["pure_password_1"];
+                                        "$fabric_zone_1/cisco_fc_fabric_port": value => '22';
+                                        "$fabric_zone_1/cisco_zoning_vsan": value => $plugin_settings["pure_vsan_1"];
+                                        "$fabric_zone_1/cisco_zoning_policy": value => 'initiator-target';
+                                        "$fabric_zone_1/cisco_zone_activate": value => 'true';
+                                        "$fabric_zone_1/cisco_zone_name_prefix": value => join($plugin_settings["pure_fabric_name_1"],'_');
+                                     }
+                                  }
+                           '2':   {
+                                     cinder_config {
+                                        "$fabric_zone_2/cisco_fc_fabric_address": value => $plugin_settings["pure_fabric_ip_2"];
+                                        "$fabric_zone_2/cisco_fc_fabric_user": value => $plugin_settings["pure_username_2"];
+                                        "$fabric_zone_2/cisco_fc_fabric_password": value => $plugin_settings["pure_password_2"];
+                                        "$fabric_zone_2/cisco_fc_fabric_port": value => '22';
+                                        "$fabric_zone_2/cisco_zoning_vsan": value => $plugin_settings["pure_vsan_2"];
+                                        "$fabric_zone_2/cisco_zoning_policy": value => 'initiator-target';
+                                        "$fabric_zone_2/cisco_zone_activate": value => 'true';
+                                        "$fabric_zone_2/cisco_zone_name_prefix": value => join($plugin_settings["pure_fabric_name_2"],'_');
+                                     }
+                                  }
+                        }
+                      }
     }
 
     Cinder_config<||> ~> Service['cinder_volume']

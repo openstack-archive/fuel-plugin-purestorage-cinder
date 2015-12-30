@@ -6,7 +6,7 @@ attributes:
     weight: 10
     type: "checkbox"
   pure_san_ip:
-    value: ''
+    value: ""
     label: 'Pure Storage Management IP (san_ip)'
     description: 'The hostname (or IP address) for the Pure Storage Management VIP.'
     weight: 15
@@ -15,13 +15,13 @@ attributes:
       source: '^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
       error: "Error: Enter in regular IP address dot notation"
   pure_api:
-    value: ''
+    value: ""
     label: 'API Token for Pure Storage (pure_api_token)'
     description: 'Purity API token used to perform actions on the FlashArray.'
     weight: 20
     type: "text"
     regex:
-      source: '\S'
+      source: '^(?!\s*$).+'
       error: "Error: API token field cannot be empty"
   pure_glance_image_cache:
     value: "false"
@@ -40,7 +40,7 @@ attributes:
     value: '0'
     label: 'Glance Image Cache Max Count (image_volume_cache_max_count)'
     description: 'Maximum number of images in Glance Image Cache (0 = no limit)'
-    weight: 35
+    weight: 31
     type: "text"
     restrictions:
        - condition: "settings:fuel-plugin-purestorage-cinder.pure_glance_image_cache.value != 'true'"
@@ -71,226 +71,8 @@ attributes:
           description: "Enables Fibre Channel protocol for block storage volumes"
     label: "Protocol for Pure Storage block access"
     description: 'Select block storage protocol for FlashArray.'
-    weight: 60
+    weight: 38
     type: "radio"
-  pure_fabric_count:
-    value: '2'
-    type: "radio"
-    weight: 61
-    values:
-       - data: '1'
-         label: "1"
-       - data: '2'
-         label: "2"
-    label: "Number of SAN fabrics"
-    description: "Number of SAN fabrics connected to compute and controller nodes"
-    restrictions:
-       - condition:  "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC'"
-         action: "hide"
-  pure_fabric_name_1:
-    value: ''
-    label: "Name of Fabric 1"
-    description: "Name of the active zone set for the zoning VSAN if your switch vendor is CISCO, or name of active zone configuration if Brocade. Additionally used to define zone_name_prefix."
-    weight: 61
-    type: "text"
-    restrictions:
-       - condition: "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC'"
-         action: "hide"
-    regex:
-      source: '/S'
-      error: "Error: Fabric name cannot be blank"
-  pure_switch_vendor_1:
-    value: ''
-    values:
-       - data: "Brocade"
-         label: "Brocade"
-         description: 'Fibre Channel SAN Switch provider'
-       - data: "CISCO"
-         label: "CISCO"
-         description: 'Fibre Channel SAN Switch provider'
-    label: "Fibre Channel SAN Switch Provider for Fabric 1"
-    description: "FC Vendor"
-    weight: 61
-    type: "radio"
-    restrictions:
-       - condition: "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC'"
-         action: "hide"
-  pure_fabric_ip_1:
-    value: ''
-    type: "text"
-    weight: 61
-    label: "IP address"
-    description: "Management IP address of SAN switch for fabric number 1"
-    restrictions:
-       - condition:  "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC'"
-         action: "hide"
-    regex:
-      source: '^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
-      error: "Error: Enter in regular IP address dot notation"
-  pure_username_1:
-    value: ''
-    type: "text"
-    weight: 61
-    label: "Fabric User ID for Fabric 1"
-    description: "Fabric switch username (with admin privilages)"
-    restrictions:
-       - condition:  "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC'"
-         action: "hide"
-    regex:
-      source: '/S'
-      error: "Error: Username cannot be blank"
-  pure_password_1:
-    value: ''
-    type: "text"
-    weight: 61
-    label: "Password for fabric switch in Fabric 1"
-    description: "Fabric switch password for username above"
-    restrictions:
-       - condition:  "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC'"
-         action: "hide"
-    regex:
-      source: '/S'
-      error: "Error: Password cannot be blank"
-  pure_zoning_policy_1:
-    value: 'initiator-target'
-    values:
-       - data: "initiator-target"
-         label: "initiator-target"
-       - data: "target"
-         label: "target"
-    label: "Zoning Policy"
-    description: "Fabric 1 Zoning Policy"
-    weight: 61
-    type: "radio"
-    restrictions:
-       - condition: "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC'"
-         action: "hide"
-  pure_vsan_1:
-    value: ''
-    label: "VSAN"
-    description: "Number of zoning VSAN with active zone set which is the same as the name of Fabric 1"
-    weight: 61
-    type: "text"
-    restrictions:
-       - condition: "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC' and settings:fuel-plugin-purestorage-cinder.pure_switch_vendor_1 != 'CISCO'"
-         action: "hide"
-    regex:
-      source: '^[0-9]{1, 4093}$`'
-      error: "Error: VSAN must be in range 1-4093"
-  pure_principal_wwn_1:
-    value: ''
-    label: "Principal Switch WWN"
-    description: "WWN of switch designated as principal in your fabric. Determine from FOS command fabricShow."
-    weight: 61
-    type: "text"
-    restrictions:
-       - condition: "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC' and settings:fuel-plugin-purestorage-cinder.pure_switch_vendor_1 != 'Brocade'"
-         action: "hide"
-    regex:
-      source: '^([0-9a-fA-F][0-9a-fA-F]:){7}([0-9a-fA-F][0-9a-fA-F])$'
-      error: "Error: Enter in WWN address format xx:xx:xx:xx:xx:xx:xx:xx"
-  pure_fabric_name_2:
-    value: ''
-    label: "Name of Fabric 2"
-    description: "Name of the active zone set for zoning VSAN if your switch vendor is CISCO, or name of active zone configuration if Brocade. Additionally used to define zone_name_prefix."
-    weight: 62
-    type: "text"
-    restrictions:
-       - condition: "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC' and settings:fuel-plugin-purestorage-cinder.pure_fabric_count != '2'"
-         action: "hide"
-    regex:
-      source: '/S'
-      error: "Error: Fabric name cannot be blank"
-  pure_switch_vendor_2:
-    value: ''
-    values:
-       - data: "Brocade"
-         label: "Brocade"
-         description: 'Fibre Channel SAN Switch provider'
-       - data: "CISCO"
-         label: "CISCO"
-         description: 'Fibre Channel SAN Switch provider'
-    label: "Fibre Channel SAN Switch Provider for Fabric 2"
-    description: "FC Vendor"
-    weight: 62
-    type: "radio"
-    restrictions:
-       - condition: "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC' and settings:fuel-plugin-purestorage-cinder.pure_fabric_count != '2'"
-         action: "hide"
-  pure_fabric_ip_2:
-    value: ''
-    type: "text"
-    weight: 62
-    label: "IP address"
-    description: "Management IP address of SAN switch for fabric number 2"
-    restrictions:
-       - condition:  "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC' and settings:fuel-plugin-purestorage-cinder.pure_fabric_count != '2'"
-         action: "hide"
-    regex:
-      source: '^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
-      error: "Error: Enter in regular IP address dot notation"
-  pure_username_2:
-    value: ''
-    type: "text"
-    weight: 62
-    label: "Fabric User ID for Fabric 2"
-    description: "Fabric switch username (with admin privilages)"
-    restrictions:
-       - condition:  "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC' and settings:fuel-plugin-purestorage-cinder.pure_fabric_count != '2'"
-         action: "hide"
-    regex:
-      source: '/S'
-      error: "Error: Username cannot be blank"
-  pure_password_2:
-    value: ''
-    type: "text"
-    weight: 62
-    label: "Password for fabric switch in Fabric 2"
-    description: "Fabric switch password for username above"
-    restrictions:
-       - condition:  "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC' and settings:fuel-plugin-purestorage-cinder.pure_fabric_count != '2'"
-         action: "hide"
-    regex:
-      source: '/S'
-      error: "Error: Password cannot be blank"
-  pure_zoning_policy_2:
-    value: 'initiator-target'
-    values:
-       - data: "initiator-target"
-         label: "initiator-target"
-       - data: "target"
-         label: "target"
-    label: "Zoning Policy"
-    description: "Fabric 2 Zoning Policy"
-    weight: 62
-    type: "radio"
-    restrictions:
-       - condition:  "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC' and settings:fuel-plugin-purestorage-cinder.pure_fabric_count != '2'"
-         action: "hide"
-  pure_vsan_2:
-    value: ''
-    label: "VSAN"
-    description: "Number of zoning VSAN with active zone set which is the same as the name of Fabric 2"
-    weight: 62
-    type: "text"
-    restrictions:
-       - condition: "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC' and settings:fuel-plugin-purestorage-cinder.pure_switch_vendor_2 != 'Brocade' and settings:fuel-plugin-purestorage-cinder.pure_fabric_count != '2'"
-         action: "hide"
-    regex:
-      source: '^[0-9]{1, 4093}$`'
-      error: "Error: VSAN must be in range 1-4093"
-  pure_principal_wwn_2:
-    value: ''
-    label: "Principal Switch WWN"
-    description: "WWN of switch designated as principal in your fabric. Determine from FOS command fabricShow."
-    weight: 62
-    type: "text"
-    restrictions:
-       - condition: "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC' and settings:fuel-plugin-purestorage-cinder.pure_fabric_count != '2' and settings:fuel-plugin-purestorage-cinder.pure_switch_vendor_1 != 'Brocade'"
-         action: "hide"
-    regex:
-      source: '^([0-9a-fA-F][0-9a-fA-F]:){7}([0-9a-fA-F][0-9a-fA-F])$'
-      error: "Error: Enter in WWN address format xx:xx:xx:xx:xx:xx:xx:xx"
   pure_chap:
     value: "false"
     values:
@@ -302,8 +84,159 @@ attributes:
           description: "Disables CHAP on iSCSI connections to FlashArray"
     label: "Pure Storage iSCSI CHAP (use_chap_auth)"
     description: 'Enable/Disable CHAP on iSCSI connections to the FlashArray.'
-    weight: 60
+    restrictions:
+       - condition: "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'iSCSI'"
+         action: "hide"
+    weight: 40
     type: "radio"
+  pure_fabric_count:
+    value: '2'
+    type: "select"
+    weight: 41
+    values:
+       - data: '1'
+         label: "1"
+       - data: '2'
+         label: "2"
+    label: "Number of SAN fabrics"
+    description: "Number of SAN fabrics connected to compute and controller nodes"
+    restrictions:
+       - condition:  "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC'"
+         action: "hide"
+  pure_switch_vendor:
+    value: "Brocade"
+    values:
+       - data: "Brocade"
+         label: "Brocade"
+       - data: "Cisco"
+         label: "Cisco"
+    label: "Fibre Channel SAN Switch Provider"
+    description: "FC Vendor"
+    weight: 40
+    type: "select"
+    restrictions:
+       - condition: "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC'"
+         action: "hide"
+  pure_fabric_name_1:
+    value: ""
+    label: "Name of Fabric 1"
+    description: "Name of the active zone set for the zoning VSAN if your switch vendor is Cisco, or name of active zone configuration if Brocade. Used in definition of 'zone_name_prefix'."
+    weight: 42
+    type: "text"
+    restrictions:
+       - condition: "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC'"
+         action: "hide"
+    regex:
+      source: '^(?!\s*$).+'
+      error: "Error: Fabric name cannot be blank"
+  pure_fabric_ip_1:
+    value: ""
+    type: "text"
+    weight: 43
+    label: "IP address of switch in Fabric 1"
+    description: "Management IP address of SAN switch for fabric number 1"
+    restrictions:
+       - condition:  "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC'"
+         action: "hide"
+    regex:
+      source: '^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+      error: "Error: Enter in regular IP address dot notation"
+  pure_username_1:
+    value: ""
+    type: "text"
+    weight: 44
+    label: "User ID for switch in Fabric 1"
+    description: "Fabric switch username (with admin privilages)"
+    restrictions:
+       - condition:  "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC'"
+         action: "hide"
+    regex:
+      source: '^(?!\s*$).+'
+      error: "Error: Username cannot be blank"
+  pure_password_1:
+    value: ""
+    type: "password"
+    weight: 45
+    label: "Password for switch in Fabric 1"
+    description: "Fabric switch password for username above"
+    restrictions:
+       - condition:  "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC'"
+         action: "hide"
+    regex:
+      source: '^(?!\s*$).+'
+      error: "Error: Password cannot be blank"
+  pure_vsan_1:
+    value: ""
+    label: "VSAN for Fabric 1"
+    description: "Number of zoning VSAN with active zone set which is the same as the name of Fabric 1"
+    weight: 46
+    type: "text"
+    restrictions:
+       - condition: "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC' or (settings:fuel-plugin-purestorage-cinder.pure_protocol.value == 'FC' and settings:fuel-plugin-purestorage-cinder.pure_switch_vendor.value != 'Cisco')"
+         action: "hide"
+    regex:
+      source: '^(409[0-3]|40[1-8][0-9]|[1-3][0-9][0-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9]|[1-9])$'
+      error: "Error: VSAN must be in range 1-4093"
+  pure_fabric_name_2:
+    value: ""
+    label: "Name of Fabric 2"
+    description: "Name of the active zone set for the zoning VSAN if your switch vendor is Cisco, or name of active zone configuration if Brocade. Used in definition of 'zone_name_prefix'."
+    weight: 51
+    type: "text"
+    restrictions:
+       - condition: "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC' or (settings:fuel-plugin-purestorage-cinder.pure_protocol.value == 'FC' and settings:fuel-plugin-purestorage-cinder.pure_fabric_count.value != '2')"
+         action: "hide"
+    regex:
+      source: '^(?!\s*$).+'
+      error: "Error: Fabric name cannot be blank"
+  pure_fabric_ip_2:
+    value: ""
+    type: "text"
+    weight: 52
+    label: "IP address of switch in Fabric 1"
+    description: "Management IP address of SAN switch for fabric number 2"
+    restrictions:
+       - condition:  "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC' or (settings:fuel-plugin-purestorage-cinder.pure_protocol.value == 'FC' and settings:fuel-plugin-purestorage-cinder.pure_fabric_count.value != '2')"
+         action: "hide"
+    regex:
+      source: '^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+      error: "Error: Enter in regular IP address dot notation"
+  pure_username_2:
+    value: ""
+    type: "text"
+    weight: 53
+    label: "User ID for switch in Fabric 2"
+    description: "Fabric switch username (with admin privilages)"
+    restrictions:
+       - condition:  "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC' or (settings:fuel-plugin-purestorage-cinder.pure_protocol.value == 'FC' and settings:fuel-plugin-purestorage-cinder.pure_fabric_count.value != '2')"
+         action: "hide"
+    regex:
+      source: '^(?!\s*$).+'
+      error: "Error: Username cannot be blank"
+  pure_password_2:
+    value: ""
+    type: "password"
+    weight: 54
+    label: "Password for switch in Fabric 2"
+    description: "Fabric switch password for username above"
+    restrictions:
+       - condition:  "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC' or (settings:fuel-plugin-purestorage-cinder.pure_protocol.value == 'FC' and settings:fuel-plugin-purestorage-cinder.pure_fabric_count.value != '2')"
+         action: "hide"
+    regex:
+      source: '^(?!\s*$).+'
+      error: "Error: Password cannot be blank"
+  pure_vsan_2:
+    value: ""
+    label: "VSAN for Fabric 2"
+    description: "Number of zoning VSAN with active zone set which is the same as the name of Fabric 2"
+    weight: 56
+    type: "text"
+    restrictions:
+       - condition: "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC' or (settings:fuel-plugin-purestorage-cinder.pure_protocol.value == 'FC' and settings:fuel-plugin-purestorage-cinder.pure_fabric_count.value != '2' or (settings:fuel-plugin-purestorage-cinder.pure_fabric_count.value == '2' and settings:fuel-plugin-purestorage-cinder.pure_switch_vendor.value == 'Brocade'))"
+         action: "hide"
+    regex:
+      source: '^(409[0-3]|40[1-8][0-9]|[1-3][0-9][0-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9]|[1-9])$'
+      error: "Error: VSAN must be in range 1-4093"
   pure_multipath:
     value: "true"
     values:

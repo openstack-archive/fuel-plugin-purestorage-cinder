@@ -90,6 +90,18 @@ Pure Storage Cinder Plugin installation
          :width: 100%
 
 #. Enter the Purity API Token and the IP address of the management VIP of the Pure Storage FlashArray.
+   Obtain the Purity API token from the Pure Storage GUI 
+   
+     (System->Users->API Tokens: Select User, click gear icon by use select 'Show API Token')
+
+  .. image:: figures/API-collection.png
+         :width: 100%
+   
+   or use the following Purity CLI command to obtain the API token:
+
+  ::
+
+    # pureadmin list --api-token --expose <USER>
 
 #. Select the defaults for all other Pure Storage options.
 
@@ -97,10 +109,13 @@ User Guide
 ==========
 
 Once the OpenStack instance is deployed by Fuel the Pure Storage plugin provides no
-user configurable or maintainable options.
+user configurable or maintainable options. As part of this installation a new multipath.conf
+file is provided to all nodes. Ensure that other device entries required for your 
+local environment are added to these files and multipath is restarted to accept any changes.
 
 The Pure Storage driver (Once configured by Fuel) will output all logs into the
 cinder-volume process log file with the 'Pure Storage' title.
+
 
 Known issues
 ============

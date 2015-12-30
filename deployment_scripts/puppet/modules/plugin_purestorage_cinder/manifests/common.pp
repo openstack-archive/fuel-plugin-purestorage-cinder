@@ -23,6 +23,9 @@ class plugin_purestorage_cinder::common {
   package {$plugin_purestorage_cinder::params::iscsi_package_name:
     ensure => 'installed'
   }
+  package {$plugin_purestorage_cinder::params::multipath_package_name:
+    ensure => 'installed'
+  }
   case $::osfamily {
     'Debian': {
       service {$plugin_purestorage_cinder::params::iscsi_service_name:
@@ -52,9 +55,7 @@ class plugin_purestorage_cinder::common {
       fail("unsuported osfamily ${::osfamily}, currently Debian and Redhat are the only supported platforms")
     }
   }
-  package {$plugin_purestorage_cinder::params::multipath_package_name:
-    ensure => 'installed'
-  }
+
   service {$plugin_purestorage_cinder::params::multipath_service_name:
     ensure     => 'running',
     enable     => true,
@@ -63,4 +64,13 @@ class plugin_purestorage_cinder::common {
     status     => 'pgrep multipathd',
     require    => Package[$plugin_purestorage_cinder::params::multipath_package_name],
   }
+
+  file {'multipath.conf':
+    path    => '/etc/multipath.conf',
+    mode    => '0644',
+    owner   => root,
+    group   => root,
+    source  => 'puppet:///modules/plugin_purestorage_cinder/multipath.conf',
+    require => Package[$plugin_purestorage_cinder::params::multipath_package_name],
+    notify  => Service[$plugin_purestorage_cinder::params::multipath_package_name],
 }

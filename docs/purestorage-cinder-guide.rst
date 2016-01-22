@@ -90,9 +90,10 @@ Pure Storage Cinder Plugin installation
          :width: 100%
 
 #. Enter the Purity API Token and the IP address of the management VIP of the Pure Storage FlashArray.
-   Obtain the Purity API token from the Pure Storage GUI
+   
+   "*" Obtain the Purity API token from the Pure Storage GUI
 
-     (System->Users->API Tokens: Select User, click gear icon by use select 'Show API Token')
+   System->Users->API Tokens: Select User, click gear icon by use select 'Show API Token'
 
   .. image:: figures/API-collection.png
          :width: 100%
@@ -103,9 +104,9 @@ Pure Storage Cinder Plugin installation
 
     # pureadmin list --api-token --expose <USER>
 
-   Obtain the Pure Storage VIP from the Pure Storage GUI
+   "*" Obtain the Pure Storage VIP from the Pure Storage GUI
 
-     (System->System->Configuration->Networking: e IP addresses associated with 'vir0')
+   System->System->Configuration->Networking: e IP addresses associated with 'vir0'
 
   .. image:: figures/VIP-collection.png
          :width: 100%

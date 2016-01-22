@@ -59,25 +59,36 @@ class plugin_purestorage_cinder::controller (
     }
 
 # Insert Glance Image Cache for Cinder settings
-    if $plugin_settings['image_volume_cache_enabled'] {
-        keystone_tenant { 'cinder_internal_tenant':
-                             ensure  => present,
-                             description => 'Cinder Internal Tenant',
-                             enabled => True,
-        }
-        keystone_user { 'cinder_internal_user':
-                             ensure  => present,
-                             description => 'Cinder Internal User',
-                             enabled => True,
-        }
-        keystone_role { 'admin':
-                             ensure => present,
-        }
-        keystone_user_role { 'cinder_internal_user@cinder_internal_tenant':
-                             roles => ['admin'],
-                             ensure => present
-        }
-# How do I get back the IDs.
+# Until we can do this correctly with Keystone and get back the created IDs
+# we will do this with the get_random_id below.
+#
+#    if $plugin_settings['image_volume_cache_enabled'] {
+#        keystone_tenant { 'cinder_internal_tenant':
+#                             ensure  => present,
+#                             description => 'Cinder Internal Tenant',
+#                             enabled => True,
+#        }
+#        keystone_user { 'cinder_internal_user':
+#                             ensure  => present,
+#                             description => 'Cinder Internal User',
+#                             enabled => True,
+#        }
+#        keystone_role { 'admin':
+#                             ensure => present,
+#        }
+#        keystone_user_role { 'cinder_internal_user@cinder_internal_tenant':
+#                             roles => ['admin'],
+#                             ensure => present
+#        }
+# 
+# Currently there is no way to recover a user or tenant ID from keystone in puppet.
+# Luckily the glance image cache doesn't actually use keystone to check the IDs so
+# we can just, temporarily, assign a randon ID to the two fields.
+# When keystone-puppet has the functionality we need we will fix this workaround
+
+      $PROJECT_ID"  = get_random_id(32)
+      $USER_ID"  = get_random_id(32)
+
        }
       cinder::backend::pure { DEFAULT :
         extra_options               => { "DEFAULT/cinder_internal_tenant_project_id" => { value => "$PROJECT_ID"] },

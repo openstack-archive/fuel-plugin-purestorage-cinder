@@ -50,27 +50,27 @@ the official documentation available on the `Pure Storage
 Community Website <http://community.purestorage.com/ekgav24373/attachments/ekgav24373/pure-storage-knowledge/294/1/Purity%204.5%20FlashArray%20User%20Guide.pdf>`_.
 
 Pure Storage Cinder Plugin installation
---------------------------
+---------------------------------------
 
-#. Download the plugin from the `Fuel Plugins Catalog <https://www.mirantis.com/products/openstack-drivers-and-plugins/fuel-plugins/>`_.
+1. Download the plugin from the `Fuel Plugins Catalog <https://www.mirantis.com/products/openstack-drivers-and-plugins/fuel-plugins/>`_.
 
-#. Copy the plugin to an already installed Fuel Master node. If you do not
+2. Copy the plugin to an already installed Fuel Master node. If you do not
    have the Fuel Master node yet, please follow `the instructions <https://docs.mirantis.com/openstack/fuel/fuel-7.0/quickstart-guide.html#quickstart-guide>`_:
 
    ::
 
      scp  fuel-plugin-purestorage-cinder-2.0-2.0.0.noarch.rpm root@:<the_Fuel_Master_node_IP>:/tmp
 
-#. Log into the Fuel Master node.
+3. Log into the Fuel Master node.
 
-#. Install the plugin
+4. Install the plugin
 
    ::
 
      cd /tmp
      fuel plugins --install fuel-plugin-purestorage-cinder-2.0-2.0.0.noarch.rpm
 
-#. Check if the plugin was installed successfully
+5. Check if the plugin was installed successfully
 
   ::
 
@@ -79,46 +79,48 @@ Pure Storage Cinder Plugin installation
      ---|--------------------------------|---------|----------------
       1 | fuel-plugin-purestorage-cinder | 2.0.0   | 2.0.0
 
-#. After the plugin is installed, `create a new OpenStack environment <https://docs.mirantis.com/openstack/fuel/fuel-7.0/user-guide.html#create-a-new-openstack-environment>`_ using the Fuel UI Wizard.
+6. After the plugin is installed, `create a new OpenStack environment <https://docs.mirantis.com/openstack/fuel/fuel-7.0/user-guide.html#create-a-new-openstack-environment>`_ using the Fuel UI Wizard.
 
-#. `Configure your environment <https://docs.mirantis.com/openstack/fuel/fuel-7.0/user-guide.html#configure-your-environment>`_.
+7. `Configure your environment <https://docs.mirantis.com/openstack/fuel/fuel-7.0/user-guide.html#configure-your-environment>`_.
 
-#. Open the Settings tab of the Fuel Web UI and scroll down the page. Select the
-   Fuel plugin to enable Pure Storage driver in Cinder plugin checkbox.
+8. Open the Settings tab of the Fuel Web UI and scroll down the page. Select the Fuel plugin to enable Pure Storage driver in Cinder plugin checkbox.
 
   .. image:: figures/fuel-settings-page.png
          :width: 100%
 
-#. Enter the Purity API Token and the IP address of the management VIP of the Pure Storage FlashArray.
+9. Enter the Purity API Token and the IP address of the management VIP of the Pure Storage FlashArray.
    
-   * Obtain the Purity API token from the Pure Storage GUI
+* Obtain the Purity API token from the Pure Storage GUI
 
-   System->Users->API Tokens: Select User, click gear icon by use select 'Show API Token'
+  ::
 
-  .. image:: figures/API-collection.png
+     System->Users->API Tokens: Select User, click gear icon by use select 'Show API Token'
+
+  .. image:: figures/api-collection.png
          :width: 100%
 
-   or use the following Purity CLI command to obtain the API token:
+or use the following Purity CLI command to obtain the API token:
 
   ::
 
      # pureadmin list --api-token --expose <USER>
 
-   * Obtain the Pure Storage VIP from the Pure Storage GUI
+* Obtain the Pure Storage VIP from the Pure Storage GUI
 
-   System->System->Configuration->Networking: e IP addresses associated with 'vir0'
+  ::
+
+     System->System->Configuration->Networking: Use the IP addresses associated with 'vir0'
 
   .. image:: figures/VIP-collection.png
          :width: 100%
 
-   or use the following Purity CLI command to obtain the VIP address:
+or use the following Purity CLI command to obtain the VIP address:
 
   ::
 
      # purenetwork list vir0
 
-#. Select the defaults for all other Pure Storage options. More details on these options can be found in the 
-   `Pure Storage Fuel Plugin documentation <https://xxx.purestorage.com>`_.
+10. Select the defaults for all other Pure Storage options. More details on these options can be found in the `Pure Storage Fuel Plugin documentation <https://xxx.purestorage.com>`_.
 
 User Guide
 ==========
@@ -135,18 +137,15 @@ cinder-volume process log file with the 'Pure Storage' title.
 Known issues
 ============
 
-#. Ensure your controller nodes have access to the public internet to allow for correct Python module
-   installation required by the Fuel plugin
+1. Ensure your controller nodes have access to the public internet to allow for correct Python module installation required by the Fuel plugin
 
-#. If you environment is deployed with multiple controllers for HA, you cannot run all the
-   Cinder Volume services at the same time in Active-Active mode
+2. If you environment is deployed with multiple controllers for HA, you cannot run all the Cinder Volume services at the same time in Active-Active mode
 
-#. There are specific changes that need to be made to the local deb packages. More details can be found
-   in the Pure Storage/Mirantis Reference Architecture.
+3. There are specific changes that need to be made to the local deb packages. More details can be found in the Pure Storage/Mirantis Reference Architecture
 
 Appendix
 ========
 
-#. `OpenStack Cinder Driver for Pure Storage Flash Array <http://stackalytics.com/report/driverlog?project_id=openstack%2Fcinder&vendor=Pure%20iSCSI%2FFC%20Storage>`_
+1. `OpenStack Cinder Driver for Pure Storage Flash Array <http://stackalytics.com/report/driverlog?project_id=openstack%2Fcinder&vendor=Pure%20iSCSI%2FFC%20Storage>`_
 
-#. `Pure Storage Flash Array User Guide <http://community.purestorage.com/ekgav24373/attachments/ekgav24373/pure-storage-knowledge/294/1/Purity%204.5%20FlashArray%20User%20Guide.pdf>`_
+2. `Pure Storage Flash Array User Guide <http://community.purestorage.com/ekgav24373/attachments/ekgav24373/pure-storage-knowledge/294/1/Purity%204.5%20FlashArray%20User%20Guide.pdf>`_

@@ -96,7 +96,7 @@ Pure Storage Cinder Plugin installation
 
      System->Users->API Tokens: Select User, click gear icon by use select 'Show API Token'
 
-  .. image:: figures/api-collection.png
+  .. image:: figures/api-Collection.png
          :width: 100%
 
 or use the following Purity CLI command to obtain the API token:
@@ -111,7 +111,7 @@ or use the following Purity CLI command to obtain the API token:
 
      System->System->Configuration->Networking: Use the IP addresses associated with 'vir0'
 
-  .. image:: figures/VIP-collection.png
+  .. image:: figures/VIP-Collection.png
          :width: 100%
 
 or use the following Purity CLI command to obtain the VIP address:

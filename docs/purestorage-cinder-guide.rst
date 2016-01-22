@@ -74,10 +74,10 @@ Pure Storage Cinder Plugin installation
 
   ::
 
-    # fuel plugins
-    id | name                           | version | package_version
-    ---|--------------------------------|---------|----------------
-     1 | fuel-plugin-purestorage-cinder | 2.0.0   | 2.0.0
+     # fuel plugins
+     id | name                           | version | package_version
+     ---|--------------------------------|---------|----------------
+      1 | fuel-plugin-purestorage-cinder | 2.0.0   | 2.0.0
 
 #. After the plugin is installed, `create a new OpenStack environment <https://docs.mirantis.com/openstack/fuel/fuel-7.0/user-guide.html#create-a-new-openstack-environment>`_ using the Fuel UI Wizard.
 
@@ -91,7 +91,7 @@ Pure Storage Cinder Plugin installation
 
 #. Enter the Purity API Token and the IP address of the management VIP of the Pure Storage FlashArray.
    
-   "*" Obtain the Purity API token from the Pure Storage GUI
+   * Obtain the Purity API token from the Pure Storage GUI
 
    System->Users->API Tokens: Select User, click gear icon by use select 'Show API Token'
 
@@ -102,9 +102,9 @@ Pure Storage Cinder Plugin installation
 
   ::
 
-    # pureadmin list --api-token --expose <USER>
+     # pureadmin list --api-token --expose <USER>
 
-   "*" Obtain the Pure Storage VIP from the Pure Storage GUI
+   * Obtain the Pure Storage VIP from the Pure Storage GUI
 
    System->System->Configuration->Networking: e IP addresses associated with 'vir0'
 
@@ -115,7 +115,7 @@ Pure Storage Cinder Plugin installation
 
   ::
 
-    # purenetwork list vir0
+     # purenetwork list vir0
 
 #. Select the defaults for all other Pure Storage options. More details on these options can be found in the 
    `Pure Storage Fuel Plugin documentation <https://xxx.purestorage.com>`_.

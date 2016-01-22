@@ -78,6 +78,14 @@ class plugin_purestorage_cinder::controller (
                              ensure => present
         }
 # How do I get back the IDs.
+# Currently there is no way to recover a user or tenant ID from keystone in puppet.
+# Luckily the glance image cache doesn't actually use keystone to check the IDs so
+# we can just, temporarily, assign a randon ID to the two fields.
+# When keystone-puppet has the functionality we need we will fix this workaround
+
+      $PROJECT_ID"  = get_random_id(32)
+      $USER_ID"  = get_random_id(32)
+
        }
       cinder::backend::pure { DEFAULT :
         extra_options               => { "DEFAULT/cinder_internal_tenant_project_id" => { value => "$PROJECT_ID"] },

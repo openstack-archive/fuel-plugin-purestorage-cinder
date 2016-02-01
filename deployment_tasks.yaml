@@ -1,13 +1,14 @@
 # Deployment tasks
-- role: [primary-controller, controller]
+- id: configure_purestorage_controller
+  role: ['primary-controller', 'controller']
   stage: post_deployment/6000
   type: puppet
   parameters:
     puppet_manifest: puppet/manifests/controller.pp
     puppet_modules:  "puppet/modules/:/etc/puppet/modules/"
     timeout: 360
-
-- role: [compute]
+- id: configure_purestorage_compute
+  role: ['compute']
   stage: post_deployment/6001
   type: puppet
   parameters:

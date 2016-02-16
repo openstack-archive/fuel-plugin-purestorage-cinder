@@ -86,13 +86,12 @@ class plugin_purestorage_cinder::controller (
 # we can just, temporarily, assign a randon ID to the two fields.
 # When keystone-puppet has the functionality we need we will fix this workaround
 
-      $PROJECT_ID"  = get_random_id(32)
-      $USER_ID"  = get_random_id(32)
+      $PROJECT_ID  = get_random_id(32)
+      $USER_ID  = get_random_id(32)
 
-       }
       cinder::backend::pure { DEFAULT :
-        extra_options               => { "DEFAULT/cinder_internal_tenant_project_id" => { value => "$PROJECT_ID"] },
-                                         "DEFALUT/cinder_internal_tenant_user_id" => { value => "$USER_ID"] }
+        extra_options               => { "DEFAULT/cinder_internal_tenant_project_id" => { value => "$PROJECT_ID" },
+                                         "DEFALUT/cinder_internal_tenant_user_id" => { value => "$USER_ID" }
         }
        }
       cinder::backend::pure { $section :

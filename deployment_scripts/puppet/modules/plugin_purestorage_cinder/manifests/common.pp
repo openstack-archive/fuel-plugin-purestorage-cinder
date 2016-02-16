@@ -73,4 +73,5 @@ class plugin_purestorage_cinder::common {
     source  => 'puppet:///modules/plugin_purestorage_cinder/multipath.conf',
     require => Package[$plugin_purestorage_cinder::params::multipath_package_name],
     notify  => Service[$plugin_purestorage_cinder::params::multipath_package_name],
+  }
 }

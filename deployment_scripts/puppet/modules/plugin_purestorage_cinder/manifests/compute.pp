@@ -28,7 +28,7 @@ class plugin_purestorage_cinder::compute {
     hasrestart => true,
   }
 
-  nova_config { 'libvirt/iscsi_use_multipath': value =>  $plugin_settings['pure_nova_multipath'],
+  nova_config { 'libvirt/iscsi_use_multipath': value =>  $plugin_settings['pure_nova_multipath'];
                 'libvirt/hw_disk_discard': value => 'unmap' }
 
   Nova_config<||> ~> Service['nova-compute']

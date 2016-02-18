@@ -46,18 +46,6 @@ class plugin_purestorage_cinder::controller (
       $section = 'DEFAULT'
     }
 
-    cinder::backend::pure { $section :
-      san_ip                        => $plugin_settings['pure_san_ip'],
-      pure_api_token                => $plugin_settings['pure_api'],
-      volume_backend_name           => $section,
-      use_chap_auth                 => $plugin_settings['pure_chap'],
-      use_multipath_for_image_xfer  => $plugin_settings['pure_multipath'],
-      pure_storage_protocol         => $plugin_settings['pure_protocol'],
-      extra_options                 => { "$section/backend_host" => { value => $section },
-                                         "$section/image_volume_cache_enabled" => { value => $plugin_settings["pure_glance_image_cache"] }
-    }
-    }
-
 # Insert Glance Image Cache for Cinder settings
 # Until we can do this correctly with Keystone and get back the created IDs
 # we will do this with the get_random_id below.
@@ -85,17 +73,26 @@ class plugin_purestorage_cinder::controller (
 # Luckily the glance image cache doesn't actually use keystone to check the IDs so
 # we can just, temporarily, assign a randon ID to the two fields.
 # When keystone-puppet has the functionality we need we will fix this workaround
-
+    
+    if $plugin_settings['pure_glance_image_cache'] {
       $PROJECT_ID  = get_random_id(32)
       $USER_ID  = get_random_id(32)
+      cinder_config {                                   
+             "DEFAULT/cinder_internal_tenant_project_id": value => "$PROJECT_ID";
+             "DEFAULT/cinder_internal_tenant_user_id": value => "$USER_ID";
+      }
+    }
 
-      cinder::backend::pure { DEFAULT :
-        extra_options               => { "DEFAULT/cinder_internal_tenant_project_id" => { value => "$PROJECT_ID" },
-                                         "DEFALUT/cinder_internal_tenant_user_id" => { value => "$USER_ID" }
-        }
-       }
-      cinder::backend::pure { $section :
-        extra_options               => { "$section/image_volume_cache_max_count" => { value => $plugin_settings["pure_glance_cache_count"] },
+    cinder::backend::pure { $section :
+      san_ip                        => $plugin_settings['pure_san_ip'],
+      pure_api_token                => $plugin_settings['pure_api'],
+      volume_backend_name           => $section,
+      use_chap_auth                 => $plugin_settings['pure_chap'],
+      use_multipath_for_image_xfer  => $plugin_settings['pure_multipath'],
+      pure_storage_protocol         => $plugin_settings['pure_protocol'],
+      extra_options                 => { "$section/backend_host" => { value => $section },
+                                         "$section/image_volume_cache_enabled" => { value => $plugin_settings["pure_glance_image_cache"] },
+                                         "$section/image_volume_cache_max_count" => { value => $plugin_settings["pure_glance_cache_count"] },
                                          "$section/image_volume_cache_max_size_gb" => { value => $plugin_settings["pure_glance_cache_size"] }
         }
     }
@@ -130,7 +127,7 @@ class plugin_purestorage_cinder::controller (
                  }
           '2':   {
                     cinder_config {
-                      "fc-zone-manager/fc_fabric_names": value => join($plugin_settings["pure_fabric_name_1"],', ',$plugin_settings["pure_fabric_name_2"]);
+                      "fc-zone-manager/fc_fabric_names": value => join([$plugin_settings["pure_fabric_name_1"],", ",$plugin_settings["pure_fabric_name_2"]],'');
                     }
                  }
       }
@@ -148,7 +145,7 @@ class plugin_purestorage_cinder::controller (
                              "$fabric_zone_1/fc_fabric_port": value => '22';
                              "$fabric_zone_1/zoning_policy": value => 'initiator-target';
                              "$fabric_zone_1/zone_activate": value => 'true';
-                             "$fabric_zone_1/zone_name_prefix": value => join($plugin_settings["pure_fabric_name_1"],'_');
+                             "$fabric_zone_1/zone_name_prefix": value => join([$plugin_settings["pure_fabric_name_1"],"_"],'');
                           }
                           if $plugin_settings['pure_fabric_count'] == '2' {
                              cinder_config {
@@ -158,7 +155,7 @@ class plugin_purestorage_cinder::controller (
                                 "$fabric_zone_2/fc_fabric_port": value => '22';
                                 "$fabric_zone_2/zoning_policy": value => 'initiator-target';
                                 "$fabric_zone_2/zone_activate": value => 'true';
-                                "$fabric_zone_2/zone_name_prefix": value => join($plugin_settings["pure_fabric_name_2"],'_');
+                                "$fabric_zone_2/zone_name_prefix": value => join([$plugin_settings["pure_fabric_name_2"],"_"],'');
                              }
                           }
                         }
@@ -171,7 +168,7 @@ class plugin_purestorage_cinder::controller (
                             "$fabric_zone_1/cisco_zoning_vsan": value => $plugin_settings["pure_vsan_1"];
                             "$fabric_zone_1/cisco_zoning_policy": value => 'initiator-target';
                             "$fabric_zone_1/cisco_zone_activate": value => 'true';
-                            "$fabric_zone_1/cisco_zone_name_prefix": value => join($plugin_settings["pure_fabric_name_1"],'_');
+                            "$fabric_zone_1/cisco_zone_name_prefix": value => join([$plugin_settings["pure_fabric_name_1"],"_"],'');
                           }
                           if $plugin_settings['pure_fabric_count'] == '2' {
                              cinder_config {
@@ -182,7 +179,7 @@ class plugin_purestorage_cinder::controller (
                                 "$fabric_zone_2/cisco_zoning_vsan": value => $plugin_settings["pure_vsan_2"];
                                 "$fabric_zone_2/cisco_zoning_policy": value => 'initiator-target';
                                 "$fabric_zone_2/cisco_zone_activate": value => 'true';
-                                "$fabric_zone_2/cisco_zone_name_prefix": value => join($plugin_settings["pure_fabric_name_2"],'_');
+                                "$fabric_zone_2/cisco_zone_name_prefix": value => join([$plugin_settings["pure_fabric_name_2"],"_"],'');
                              }
                           }
                         }

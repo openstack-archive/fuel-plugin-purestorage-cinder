@@ -8,7 +8,7 @@ module Puppet::Parser::Functions
     raise(Puppet::ParseError, "get_random_id(): Wrong number of arguments " +
       "given (#{args.size} for 1)") if args.size != 1
     numbers  = (0..9).to_a
-    alpha = ('a'..'z').to_a
+    alpha = ('a'..'f').to_a
     length = args[0].to_i
     CHARS = (alpha + numbers)
     id = CHARS.sort_by { rand }.join[0...length]

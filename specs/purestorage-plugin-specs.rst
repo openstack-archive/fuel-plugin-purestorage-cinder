@@ -68,8 +68,6 @@ Other deployer impact
 
 The deployer should configure the IP addresses on the Pure Storage array before
 they deploy the Fuel Plugin to the controllers.
-The fibre channel Zone Manager must be configured should FC be the chosen block
-storage protocol.
 
 Developer impact
 ----------------
@@ -92,7 +90,7 @@ Plugin has three tasks. Each task per role. They are run in the following order:
 
 Cinder-volume service is installed on all Controller nodes and is managed by
 Pacemaker. It runs in active/passive mode where only one instance is active.
-All instances of cinder-volume have the same “host” parameter in cinder.conf
+All instances of cinder-volume have the same “backend-host” parameter in cinder.conf
 file. This is required to achieve ability to manage all volumes in the
 environment by any cinder-volume instance.
 

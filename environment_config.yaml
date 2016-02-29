@@ -1,4 +1,6 @@
 attributes:
+  metadata:
+    group: 'storage'
   multibackend:
     value: true
     label: 'Multi-backend enabled'
@@ -41,11 +43,11 @@ attributes:
     values:
         - data: "true"
           label: "True"
-          description: "Enables multipathing for Nova compute servers"
+          description: "Enables multipathing for Nova compute servers - applies to both iSCSI and FC"
         - data: "false"
           label: "False"
-          description: "Disables multipathing for Nova compute servers"
-    label: "Multipathing for Nova Compute servers (iscsi_use_multipath)"
+          description: "Disables multipathing for Nova compute servers - applies to both iSCSI and FC"
+    label: "Multipathing for iSCSI and FC in Nova Compute servers (iscsi_use_multipath)"
     description: 'Enable/Disable multipathing for Nova compute servers.'
     weight: 26
     type: "radio"

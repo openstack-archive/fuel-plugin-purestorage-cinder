@@ -55,11 +55,11 @@ Pure Storage Cinder Plugin installation
 1. Download the plugin from the `Fuel Plugins Catalog <https://www.mirantis.com/products/openstack-drivers-and-plugins/fuel-plugins/>`_.
 
 2. Copy the plugin to an already installed Fuel Master node. If you do not
-   have the Fuel Master node yet, please follow `the instructions <https://docs.mirantis.com/openstack/fuel/fuel-7.0/quickstart-guide.html#quickstart-guide>`_:
+   have the Fuel Master node yet, please follow `the instructions <https://docs.mirantis.com/openstack/fuel/fuel-8.0/quickstart-guide.html#quickstart-guide>`_:
 
    ::
 
-     scp  fuel-plugin-purestorage-cinder-2.0-2.0.0.noarch.rpm root@:<the_Fuel_Master_node_IP>:/tmp
+     scp  fuel-plugin-purestorage-cinder-2.0-2.0.0-1.noarch.rpm root@:<the_Fuel_Master_node_IP>:/tmp
 
 3. Log into the Fuel Master node.
 
@@ -68,7 +68,7 @@ Pure Storage Cinder Plugin installation
    ::
 
      cd /tmp
-     fuel plugins --install fuel-plugin-purestorage-cinder-2.0-2.0.0.noarch.rpm
+     fuel plugins --install fuel-plugin-purestorage-cinder-2.0-2.0.0-1.noarch.rpm
 
 5. Check if the plugin was installed successfully
 
@@ -77,19 +77,21 @@ Pure Storage Cinder Plugin installation
      # fuel plugins
      id | name                           | version | package_version
      ---|--------------------------------|---------|----------------
-      1 | fuel-plugin-purestorage-cinder | 2.0.0   | 2.0.0
+      1 | fuel-plugin-purestorage-cinder | 2.0.0   | 4.0.0
 
-6. After the plugin is installed, `create a new OpenStack environment <https://docs.mirantis.com/openstack/fuel/fuel-7.0/user-guide.html#create-a-new-openstack-environment>`_ using the Fuel UI Wizard.
+6. After the plugin is installed, `create a new OpenStack environment <https://docs.mirantis.com/openstack/fuel/fuel-8.0/user-guide.html#create-a-new-openstack-environment>`_ using the Fuel UI Wizard.
 
-7. `Configure your environment <https://docs.mirantis.com/openstack/fuel/fuel-7.0/user-guide.html#configure-your-environment>`_.
+7. `Configure your environment <https://docs.mirantis.com/openstack/fuel/fuel-8.0/user-guide.html#configure-your-environment>`_.
 
-8. Open the Settings tab of the Fuel Web UI and scroll down the page. Select the Fuel plugin to enable Pure Storage driver in Cinder plugin checkbox.
+8. Open the Settings tab of the Fuel Web UI and scroll down the page. Select the Storage section to enable Pure Storage driver in Cinder plugin checkbox.
 
-  .. image:: figures/fuel-settings-page.png
+  .. image:: figures/cinder-purestorage-liberty-plugin-1.png
+         :width: 100%
+  .. image:: figures/cinder-purestorage-liberty-plugin-2.png
          :width: 100%
 
 9. Enter the Purity API Token and the IP address of the management VIP of the Pure Storage FlashArray.
-   
+
 * Obtain the Purity API token from the Pure Storage GUI
 
   ::
@@ -122,12 +124,17 @@ or use the following Purity CLI command to obtain the VIP address:
 
 10. Select the defaults for all other Pure Storage options. More details on these options can be found in the `Pure Storage Fuel Plugin documentation <https://xxx.purestorage.com>`_.
 
+11. If using Fibre Channel as the storage protocol you need to select the zoning method to be used in your deployment. If you are configuring your own zones then select 'Manual' but you can select 'Automatic' if you wish to use the Openstack Fibre Channel Zone Manager. If 'Automatic' is selected you will need to provide the necessary information for the Zone Manager to communicate and configure your fibre channel switches.
+
+  .. image:: figures/fc-options.png
+         :width: 100%
+
 User Guide
 ==========
 
 Once the OpenStack instance is deployed by Fuel the Pure Storage plugin provides no
 user configurable or maintainable options. As part of this installation a new multipath.conf
-file is provided to all nodes. Ensure that other device entries required for your 
+file is provided to all nodes. Ensure that other device entries required for your
 local environment are added to these files and multipath is restarted to accept any changes.
 
 The Pure Storage driver (Once configured by Fuel) will output all logs into the

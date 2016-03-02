@@ -73,13 +73,16 @@ class plugin_purestorage_cinder::controller (
 # Luckily the glance image cache doesn't actually use keystone to check the IDs so
 # we can just, temporarily, assign a randon ID to the two fields.
 # When keystone-puppet has the functionality we need we will fix this workaround
-    
-    if $plugin_settings['pure_glance_image_cache'] {
+
+    if $plugin_settings['pure_glance_image_cache'] == 'true' {
       $PROJECT_ID  = get_random_id(32)
       $USER_ID  = get_random_id(32)
-      cinder_config {                                   
+      cinder_config {
              "DEFAULT/cinder_internal_tenant_project_id": value => "$PROJECT_ID";
              "DEFAULT/cinder_internal_tenant_user_id": value => "$USER_ID";
+             "$section/image_volume_cache_enabled": value => $plugin_settings["pure_glance_image_cache"];
+             "$section/image_volume_cache_max_count": value => $plugin_settings["pure_glance_cache_count"];
+             "$section/image_volume_cache_max_size_gb": value => $plugin_settings["pure_glance_cache_size"];
       }
     }
 
@@ -90,10 +93,7 @@ class plugin_purestorage_cinder::controller (
       use_chap_auth                 => $plugin_settings['pure_chap'],
       use_multipath_for_image_xfer  => $plugin_settings['pure_multipath'],
       pure_storage_protocol         => $plugin_settings['pure_protocol'],
-      extra_options                 => { "$section/backend_host" => { value => $section },
-                                         "$section/image_volume_cache_enabled" => { value => $plugin_settings["pure_glance_image_cache"] },
-                                         "$section/image_volume_cache_max_count" => { value => $plugin_settings["pure_glance_cache_count"] },
-                                         "$section/image_volume_cache_max_size_gb" => { value => $plugin_settings["pure_glance_cache_size"] }
+      extra_options                 => { "$section/backend_host" => { value => $section }
         }
     }
 

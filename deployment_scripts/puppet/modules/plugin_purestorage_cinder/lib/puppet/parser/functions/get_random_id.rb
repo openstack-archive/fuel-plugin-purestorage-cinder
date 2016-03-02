@@ -11,7 +11,8 @@ module Puppet::Parser::Functions
     alpha = ('a'..'f').to_a
     length = args[0].to_i
     CHARS = (alpha + numbers)
-    id = CHARS.sort_by { rand }.join[0...length]
+    id_sub = CHARS.sort_by { rand }.join[0...length]
+    id = id_sub + id_sub
     return id
   end
 end

@@ -40,7 +40,7 @@ class plugin_purestorage_cinder::controller (
     if $plugin_settings['multibackend'] {
       $section = $backend_name
       cinder_config {
-        "DEFAULT/enabled_backends": value => "${backend_name},${backends}";
+        "DEFAULT/enabled_backends": value => "${backend_name}";
       }
     } else {
       $section = 'DEFAULT'

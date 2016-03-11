@@ -38,6 +38,19 @@ attributes:
     description: 'Enable/Disable multipathing for image transfers.'
     weight: 25
     type: "radio"
+  pure_cg:
+    value: "false"
+    values:
+        - data: "true"
+          label: "True"
+          description: "Enables Cinder Consistency Groups"
+        - data: "false"
+          label: "False"
+          description: "Disables Cinder Consistency Groups"
+    label: "Cinder Consistency Groups"
+    description: 'Enable/Disable consistency groups for ALL tenants and users.'
+    weight: 25
+    type: "radio"
   pure_nova_multipath:
     value: "false"
     values:

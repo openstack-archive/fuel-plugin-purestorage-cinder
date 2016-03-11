@@ -7,6 +7,19 @@ attributes:
     description: 'Pure Storage will be used in a multi-backend environment'
     weight: 10
     type: "checkbox"
+  pure_cg:
+    value: "false"
+    values:
+        - data: "true"
+          label: "True"
+          description: "Enables Cinder Consistency Groups for all users and all backends (where supported)"
+        - data: "false"
+          label: "False"
+          description: "Disables Cinder Consistency Groups for all users and all backends"
+    label: "Cinder Consistency Groups"
+    description: 'Enable/Disable consistency groups for ALL tenants and users.'
+    weight: 13
+    type: "radio"
   pure_san_ip:
     value: ""
     label: 'Pure Storage Management IP (san_ip)'
@@ -36,7 +49,7 @@ attributes:
           description: "Disables multipathing for image transfers"
     label: "Pure Storage Multipath for Image Transfers (use_multipath_for_image_xfer)"
     description: 'Enable/Disable multipathing for image transfers.'
-    weight: 25
+    weight: 24
     type: "radio"
   pure_nova_multipath:
     value: "false"

@@ -23,10 +23,19 @@ class plugin_purestorage_cinder::controller (
     include ::cinder::client
     include ::keystone::client
 
-    package {"purestorage":
-      ensure => "installed",
-      provider => pip
-    }
+#
+# Interim fix for Mirantis bug (https://bugs.launchpad.net/fuel/+bug/1547048)
+# Run 3 sepeerate commands to make pip respond correctly and not crash
+#
+#    package {"purestorage":
+#      ensure => "installed",
+#      provider => pip
+#    }
+
+    exec {"pip configuration":
+          command => 'pip install -U pip; pip install --upgrade distribute; pip install purestorage',
+          path => ['/usr/bin']
+         }
 
     $plugin_settings = hiera('fuel-plugin-purestorage-cinder')
 

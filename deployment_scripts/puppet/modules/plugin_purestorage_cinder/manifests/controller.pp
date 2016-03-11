@@ -106,6 +106,17 @@ class plugin_purestorage_cinder::controller (
         }
     }
 
+# If consistency groups are selected then provide a modified pilocy.json that enabled
+    if $plugin_settings['pure_cg'] == 'true' {
+      file {'policy.json':
+        path    => '/etc/cinder.policy.json',
+        mode    => '0644',
+        owner   => cinder,
+        group   => cinder,
+        source  => 'puppet:///modules/plugin_purestorage_cinder/policy.json',
+      }
+    }
+
 # If protocol is FC then meed to add zoning_mode. Put in $section as this has already been set by multibackend
     if ($plugin_settings['pure_protocol'] == 'FC') and ($plugin_settings['pure_fczm_config'] == 'automatic') {
       cinder_config {

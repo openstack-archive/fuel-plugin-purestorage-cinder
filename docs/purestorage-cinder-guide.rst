@@ -1,6 +1,6 @@
-**************************************************************
-Guide to the Pure Storage Cinder Plugin version 2.0.0 for Fuel
-**************************************************************
+*********************************************************************
+Guide to the Pure Storage Cinder Plugin version 2.0-2.0..0-1 for Fuel
+*********************************************************************
 
 This document provides instructions for installing, configuring and using
 Pure Storage Cinder plugin for Fuel.
@@ -37,6 +37,19 @@ Fuel                      8.0
 
 ============================================
 
+Pre-requisites
+--------------
+
+The Pure Storage array should be configured and connected to your network prior
+to configuring your OpenStack deployment.
+
+For more information on the Array configuration, follow
+the official documentation available from witrhin the 
+array GUI as shown below (top right of screen under Help section)
+
+.. image:: figures/array_gui_user_guide.png
+       :width: 100%
+
 Limitations
 -----------
 
@@ -44,10 +57,6 @@ No limitations are present
 
 Installation Guide
 ==================
-Make sure your Pure Storage Flash Array is up and running.
-For more information on the Array configuration, follow
-the official documentation available on the `Pure Storage
-Community Website <http://community.purestorage.com/ekgav24373/attachments/ekgav24373/pure-storage-knowledge/294/1/Purity%204.5%20FlashArray%20User%20Guide.pdf>`_.
 
 Pure Storage Cinder Plugin installation
 ---------------------------------------
@@ -122,7 +131,7 @@ or use the following Purity CLI command to obtain the VIP address:
 
      # purenetwork list vir0
 
-10. Select the defaults for all other Pure Storage options. More details on these options can be found in the `Pure Storage Fuel Plugin documentation <https://xxx.purestorage.com>`_.
+10. Select the defaults for all other Pure Storage options. Each selectable option has a description in the Fuel GUI.
 
 11. If using Fibre Channel as the storage protocol you need to select the zoning method to be used in your deployment. If you are configuring your own zones then select 'Manual' but you can select 'Automatic' if you wish to use the Openstack Fibre Channel Zone Manager. If 'Automatic' is selected you will need to provide the necessary information for the Zone Manager to communicate and configure your fibre channel switches.
 
@@ -133,11 +142,15 @@ User Guide
 ==========
 
 Once the OpenStack instance is deployed by Fuel the Pure Storage plugin provides no
-user configurable or maintainable options. As part of this installation a new multipath.conf
-file is provided to all nodes. Ensure that other device entries required for your
+user configurable or maintainable options.
+
+Validation of the plugins correct operation can be performed by comparing the parameters selected in the Fuel GUI to those added into the 
+/etc/cinder/cinder.conf and /etc/nova/nova.conf files on the Controller and Compute nodes respectively.
+
+As part of this installation a new multipath.conf file is provided to all nodes. Ensure that other device entries required for your
 local environment are added to these files and multipath is restarted to accept any changes.
 
-The Pure Storage driver (Once configured by Fuel) will output all logs into the
+The Pure Storage driver (once configured by Fuel) will output all logs into the
 cinder-volume process log file with the 'Pure Storage' title.
 
 
@@ -155,4 +168,4 @@ Appendix
 
 1. `OpenStack Cinder Driver for Pure Storage Flash Array <http://stackalytics.com/report/driverlog?project_id=openstack%2Fcinder&vendor=Pure%20iSCSI%2FFC%20Storage>`_
 
-2. `Pure Storage Flash Array User Guide <http://community.purestorage.com/ekgav24373/attachments/ekgav24373/pure-storage-knowledge/294/1/Purity%204.5%20FlashArray%20User%20Guide.pdf>`_
+2. `Pure Storage Flash Array Volume Driver <http://docs.openstack.org/kilo/config-reference/content/pure-storage-driver.html>`_

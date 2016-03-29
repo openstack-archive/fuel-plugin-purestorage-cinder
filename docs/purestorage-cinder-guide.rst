@@ -68,7 +68,8 @@ Pure Storage Cinder Plugin installation
 
    ::
 
-     scp  fuel-plugin-purestorage-cinder-2.0-2.0.0-1.noarch.rpm root@:<the_Fuel_Master_node_IP>:/tmp
+     scp  fuel-plugin-purestorage-cinder-2.0-2.0.0-1.noarch.rpm \
+root@:<the_Fuel_Master_node_IP>:/tmp
 
 3. Log into the Fuel Master node.
 
@@ -105,7 +106,7 @@ Pure Storage Cinder Plugin installation
 
   ::
 
-     System->Users->API Tokens: Select User, click gear icon by use select 'Show API Token'
+     System->Users->API Tokens: Select User, click gear icon by use select \‘Show API Token'
 
   .. image:: figures/api-Collection.png
          :width: 100%
@@ -120,7 +121,7 @@ or use the following Purity CLI command to obtain the API token:
 
   ::
 
-     System->System->Configuration->Networking: Use the IP addresses associated with 'vir0'
+     System->System->Configuration->Networking: Use the IP addresses \associated with 'vir0'
 
   .. image:: figures/VIP-Collection.png
          :width: 100%

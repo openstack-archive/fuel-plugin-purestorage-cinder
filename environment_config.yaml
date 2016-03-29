@@ -62,8 +62,121 @@ attributes:
           description: "Disables multipathing for Nova compute servers - applies to both iSCSI and FC"
     label: "Multipathing for iSCSI and FC in Nova Compute servers (iscsi_use_multipath)"
     description: 'Enable/Disable multipathing for Nova compute servers.'
+    weight: 25
+    type: "radio"
+  pure_replication:
+    value: "false"
+    values:
+        - data: "false"
+          label: "False"
+          description: 'Disable replicaton to remote Pure Storage array'
+        - data: "true"
+          label: "True"
+          description: 'Enable replicaton to remote Pure Storage array'
+    label: 'Replication to Remote Pure Storage array'
+    description: 'Configure replication to a remote array - remote array connection must be created manually'
     weight: 26
     type: "radio"
+  pure_replication_name:
+    value: ''
+    label: 'Name of array to replicate data to'
+    description: 'Name of remote replication target array'
+    weight: 27
+    type: "text"
+    restrictions:
+       - condition: "settings:fuel-plugin-purestorage-cinder.pure_replication.value != 'true'"
+         action: "hide"
+    regex:
+      source: '^(?!\s*$).+'
+      error: "Error: remote array name field cannot be empty"
+  pure_replication_ip:
+    value: ''
+    label: 'IP address of remote array'
+    description: 'IP address of remote Pure Storage array'
+    weight: 28
+    type: "text"
+    restrictions:
+       - condition: "settings:fuel-plugin-purestorage-cinder.pure_replication.value != 'true'"
+         action: "hide"
+    regex:
+      source: '^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+      error: "Error: Enter in regular IP address dot notation"
+  pure_replication_api:
+    value: ''
+    label: 'API Token for remote Pure Storage'
+    description: 'Purity API token used to perform actions on the remote array.'
+    weight: 29
+    type: "text"
+    restrictions:
+       - condition: "settings:fuel-plugin-purestorage-cinder.pure_replication.value != 'true'"
+         action: "hide"
+    regex:
+      source: '^(?!\s*$).+'
+      error: "Error: API token field cannot be empty"
+  pure_replication_default:
+    value: "true"
+    values:
+        - data: "true"
+          label: "True"
+          description: 'Use default replication retention vlaues (see documentation)'
+        - data: "false"
+          label: "False"
+          description: 'Manually define replication retention settings'
+    label: 'Replication Retention Configuration'
+    description: 'Configure the remote replication retention parameters or leave as default'
+    weight: 30
+    type: "radio"
+    restrictions:
+       - condition: "settings:fuel-plugin-purestorage-cinder.pure_replication.value != 'true'"
+         action: "hide"
+  pure_interval:
+    value: "900"
+    label: ""
+    description: ""
+    weight: 31
+    type: "text"
+    restrictions:
+       - condition: "settings:fuel-plugin-purestorage-cinder.pure_replication.value != 'true' or (settings:fuel-plugin-purestorage-cinder.pure_replication.value != 'true' and settings:fuel-plugin-purestorage-cinder.pure_replicationi_default.value != 'true')"
+         action: "hide"
+    regex:
+      source: '^(34560000|[1-3][0-4][0-5][0-5][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[3-9][0-9][0-9])$'
+      error: "Error: Range for snapshot replication interval is 300 - 34560000 seconds"
+  pure_retention_short:
+    value: "14400"
+    label: ""
+    description: ""
+    weight: 32
+    type: "text"
+    restrictions:
+       - condition: "settings:fuel-plugin-purestorage-cinder.pure_replication.value != 'true' or (settings:fuel-plugin-purestorage-cinder.pure_replication.value != 'true' and settings:fuel-plugin-purestorage-cinder.pure_replicationi_default.value != 'true')"
+         action: "hide"
+    regex:
+      source: '^(34560000|[1-3][0-4][0-5][0-5][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9]|[6-9][0-9])$'
+      error: "Error: Range for maximum time all snapshots can be retained for is 60 - 34560000 seconds"
+  pure_retention_long:
+    value: "7"
+    label: ""
+    description: ""
+    weight: 33
+    type: "text"
+    restrictions:
+       - condition: "settings:fuel-plugin-purestorage-cinder.pure_replication.value != 'true' or (settings:fuel-plugin-purestorage-cinder.pure_replication.value != 'true' and settings:fuel-plugin-purestorage-cinder.pure_replicationi_default.value != 'true')"
+         action: "hide"
+    regex:
+      source: '^(4000|[1-3][0-9][0-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9]|[1-9])$'
+      error: "Error: Maximum number of days to keep snapshots is 4000"
+  pure_retention_long_day:
+    value: "3"
+    label: ""
+    description: ""
+    weight: 34
+    type: "text"
+    restrictions:
+       - condition: "settings:fuel-plugin-purestorage-cinder.pure_replication.value != 'true' or (settings:fuel-plugin-purestorage-cinder.pure_replication.value != 'true' and settings:fuel-plugin-purestorage-cinder.pure_replicationi_default.value != 'true')"
+         action: "hide"
+    regex:
+      source: '^(1440|1[0-4][0-3][0-9]|[1-9][0-9][0-9]|[1-9][0-9]|[1-9])$'
+      error: "Error: Maximum number of snapshots per day is 1440"
   pure_glance_image_cache:
     value: "false"
     values:
@@ -75,13 +188,13 @@ attributes:
           description: 'Enable the Glance Image-Cache for Cinder backend'
     label: 'Glance Image-Cache (image_volume_cache_enabled)'
     description: 'Configure the Glance Image-Cache for Cinder'
-    weight: 30
+    weight: 35
     type: "radio"
   pure_glance_cache_count:
     value: '0'
     label: 'Glance Image Cache Max Count (image_volume_cache_max_count)'
     description: 'Maximum number of images in Glance Image Cache (0 = no limit)'
-    weight: 31
+    weight: 36
     type: "text"
     restrictions:
        - condition: "settings:fuel-plugin-purestorage-cinder.pure_glance_image_cache.value != 'true'"
@@ -93,7 +206,7 @@ attributes:
     value: '0'
     label: 'Glance Image Cache Size (image_volume_cache_max_size_gb)'
     description: 'Maximum size for Glance Image Cache [GB] 90 = no limit)'
-    weight: 35
+    weight: 37
     type: "text"
     restrictions:
        - condition: "settings:fuel-plugin-purestorage-cinder.pure_glance_image_cache.value != 'true'"
@@ -101,6 +214,19 @@ attributes:
     regex:
       source: '^[0-9]+$'
       error: "Error: Only numbers are permitted"
+  pure_eradicate:
+    value: "false"
+    values:
+        - data: "false"
+          label: "False"
+          description: "Disables auto-eradication of deleted volumes"
+        - data: "true"
+          label: "True"
+          description: "Enables auto-eradication of deleted volumes"
+    label: "Auto-Eradication of Deleted Volumes"
+    description: 'Select whether to auto-eradicate volumes on deletion or leave as default'
+    weight: 38
+    type: "radio"
   pure_protocol:
     value: "iSCSI"
     values:
@@ -112,7 +238,7 @@ attributes:
           description: "Enables Fibre Channel protocol for block storage volumes"
     label: "Protocol for Pure Storage block access"
     description: 'Select block storage protocol for FlashArray.'
-    weight: 38
+    weight: 39
     type: "radio"
   pure_fczm_config:
     value: "manual"
@@ -128,7 +254,7 @@ attributes:
     restrictions:
        - condition: "settings:fuel-plugin-purestorage-cinder.pure_protocol.value != 'FC'"
          action: "hide"
-    weight: 39
+    weight: 40
     type: "radio"
   pure_chap:
     value: "false"

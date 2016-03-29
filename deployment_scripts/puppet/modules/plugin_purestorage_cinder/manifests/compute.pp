@@ -13,12 +13,12 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 #
-class plugin_purestorage_cinder::compute {
+class plugin_purestorage_cinder::compute (
+  $nova_multipath,
+){
 
   include plugin_purestorage_cinder::common
   include ::nova::params
-
-  $plugin_settings = hiera('fuel-plugin-purestorage-cinder')
 
   service { 'nova-compute':
     ensure     => 'running',
@@ -28,7 +28,7 @@ class plugin_purestorage_cinder::compute {
     hasrestart => true,
   }
 
-  nova_config { 'libvirt/iscsi_use_multipath': value =>  $plugin_settings['pure_nova_multipath'];
+  nova_config { 'libvirt/iscsi_use_multipath': value =>  "${nova_multipath}";
                 'libvirt/hw_disk_discard': value => 'unmap' }
 
   Nova_config<||> ~> Service['nova-compute']

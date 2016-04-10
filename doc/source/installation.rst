@@ -1,4 +1,6 @@
-.. _installation:
+.. raw:: pdf
+
+    PageBreak
 
 Installation Guide
 ==================
@@ -11,23 +13,21 @@ Pure Storage Cinder Plugin installation
 2. Copy the plugin to an already installed Fuel Master node. If you do not
    have the Fuel Master node yet, please follow `the instructions <https://docs.mirantis.com/openstack/fuel/fuel-9.0/quickstart-guide.html#quickstart-guide>`_:
 
-..code-block:: ini
-
      # scp fuel-plugin-purestorage-cinder-3.0-3.0.0-1.noarch.rpm root@:<the_Fuel_Master_node_IP>:/tmp``
 
 3. Log into the Fuel Master node.
 
 4. Install the plugin
 
-   ``# cd /tmp
-   # fuel plugins --install fuel-plugin-purestorage-cinder-3.0-3.0.0-1.noarch.rpm``
+   # cd /tmp
+   # fuel plugins --install fuel-plugin-purestorage-cinder-3.0-3.0.0-1.noarch.rpm
 
 5. Check if the plugin was installed successfully
 
-   ``# fuel plugins
-   id | name                           | version | package_version
-   ---|--------------------------------|---------|----------------
-   1  | fuel-plugin-purestorage-cinder | 3.0.0   | 4.0.0``
+   # fuel plugins
+   # id | name                           | version | package_version
+   # ---|--------------------------------|---------|----------------
+   #  1 | fuel-plugin-purestorage-cinder | 3.0.0   | 4.0.0
 
 6. After the plugin is installed, `create a new OpenStack environment <https://docs.mirantis.com/openstack/fuel/fuel-9.0/user-guide.html#create-a-new-openstack-environment>`_ using the Fuel UI Wizard.
 
@@ -53,7 +53,7 @@ Pure Storage Cinder Plugin installation
 
 or use the following Purity CLI command to obtain the API token:
 
-   ``# pureadmin list --api-token --expose <USER>``
+   # pureadmin list --api-token --expose <USER>
 
 * Obtain the Pure Storage VIP from the Pure Storage GUI
 
@@ -64,7 +64,7 @@ or use the following Purity CLI command to obtain the API token:
 
 or use the following Purity CLI command to obtain the VIP address:
 
-   ``# purenetwork list vir0``
+   # purenetwork list vir0
 
 10. Select the defaults for all other Pure Storage options. Each selectable option has a description in the Fuel GUI.
 

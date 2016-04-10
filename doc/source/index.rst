@@ -7,7 +7,8 @@
 Guide to the Pure Storage Cinder Plugin v3.0-3.0.0-1
 ====================================================
 
-Contents:
+User Documentation
+==================
 
 .. toctree::
    :maxdepth: 2

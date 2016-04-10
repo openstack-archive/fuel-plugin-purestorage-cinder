@@ -12,5 +12,9 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   overview
    installation
+   user_guide
+   contact_support
+   known_issues
    appendix

@@ -120,7 +120,7 @@ class plugin_purestorage_cinder::controller (
     }
 
     if $replication == 'true' {
-      $DEVICE = "backend_id:" + $remote_array + ",san_ip:"+ $remote_ip + ",api_token:" + $remote_api
+      $DEVICE = join(["backend_id:" ,$remote_array,",san_ip:",$remote_ip,",api_token:",$remote_api],'')
       cinder_config {
              "$section/replication_device": value => "$DEVICE";
       }

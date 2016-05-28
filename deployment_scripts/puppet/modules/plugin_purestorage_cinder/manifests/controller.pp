@@ -70,7 +70,7 @@ class plugin_purestorage_cinder::controller (
       Package[$::cinder::params::volume_package] -> Cinder_config<||>
     }
 
-    if $multibackend == 'true' {
+    if $multibackends == 'true' {
       $section = $backend_name
       cinder_config {
         "DEFAULT/enabled_backends": value => "${backend_name}";
@@ -79,37 +79,34 @@ class plugin_purestorage_cinder::controller (
       $section = 'DEFAULT'
     }
 
-# Insert Glance Image Cache for Cinder settings
-# Until we can do this correctly with Keystone and get back the created IDs
-# we will do this with the get_random_id below.
-#
-#    if $glance_image_cache == 'true' {
-#        keystone_tenant { 'cinder_internal_tenant':
-#                             ensure  => present,
-#                             description => 'Cinder Internal Tenant',
-#                             enabled => True,
-#        }
-#        keystone_user { 'cinder_internal_user':
-#                             ensure  => present,
-#                             description => 'Cinder Internal User',
-#                             enabled => True,
-#        }
-#        keystone_role { 'admin':
-#                             ensure => present,
-#        }
-#        keystone_user_role { 'cinder_internal_user@cinder_internal_tenant':
-#                             roles => ['admin'],
-#                             ensure => present
-#        }
-#
-# Currently there is no way to recover a user or tenant ID from keystone in puppet.
-# Luckily the glance image cache doesn't actually use keystone to check the IDs so
-# we can just, temporarily, assign a randon ID to the two fields.
-# When keystone-puppet has the functionality we need we will fix this workaround
-
     if $glance_image_cache == 'true' {
-      $PROJECT_ID  = get_random_id(32)
-      $USER_ID  = get_random_id(32)
+      keystone_tenant { 'cinder_internal_tenant':
+                           ensure  => present,
+                           description => 'Cinter Internal Tenant',
+                           enabled => True,
+                      }
+      keystone_user { 'cinder_internal_user':
+                           ensure  => present,
+                           enabled => True,
+                    }
+      keystone_role { 'admin':
+                           ensure => present,
+                    }
+      keystone_user_role { 'cinder_internal_user@cinder_internal_tenant':
+                           roles => ['admin'],
+                           ensure => present
+                         }
+
+      exec {"project id":
+            command => 'PROJECT_ID=$(openstack project show cinder_internal_tenant | grep id | awk \'{print $4}\')',
+            path => ['/usr/local/bin/']
+           }
+
+      exec {"user id":
+            command => 'USER_ID=$(openstack user show cinder_internal_user | grep id | awk \'{print $4}\')',
+            path => ['/usr/local/bin/']
+           }
+
       cinder_config {
              "DEFAULT/cinder_internal_tenant_project_id": value => "$PROJECT_ID";
              "DEFAULT/cinder_internal_tenant_user_id": value => "$USER_ID";

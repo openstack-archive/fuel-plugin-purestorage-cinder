@@ -20,7 +20,7 @@ $previous_backends = ''
 class { 'plugin_purestorage_cinder::controller' :
   backend_name   => $backend_name,
   backends  => $previous_backends,
-  multibackends => $plugin_settings['multibackend'],
+  multibackend => $plugin_settings['multibackend'],
   glance_image_cache => $plugin_settings['pure_glance_image_cache'],
   glance_image_count => $plugin_settings["pure_glance_cache_count"],
   glance_image_size => $plugin_settings["pure_glance_cache_size"],

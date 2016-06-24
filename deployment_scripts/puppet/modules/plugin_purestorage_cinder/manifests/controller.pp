@@ -102,8 +102,10 @@ class plugin_purestorage_cinder::controller (
                          }
 
       cinder_config {
-             "DEFAULT/cinder_internal_tenant_project_id": value => $::cinder_tenant;
-             "DEFAULT/cinder_internal_tenant_user_id": value => $::cinder_user;
+#             "DEFAULT/cinder_internal_tenant_project_id": value => $::cinder_tenant;
+#             "DEFAULT/cinder_internal_tenant_user_id": value => $::cinder_user;
+             "DEFAULT/cinder_internal_tenant_project_id": value => "123456789abcdef123456789abcdef12";
+             "DEFAULT/cinder_internal_tenant_user_id": value => "123456789abcdef123456789abcdef13";
              "$section/image_volume_cache_enabled": value => $glance_image_cache;
              "$section/image_volume_cache_max_count": value => $glance_image_count;
              "$section/image_volume_cache_max_size_gb": value => $glance_image_size;

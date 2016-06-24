@@ -205,7 +205,7 @@ attributes:
   pure_glance_cache_size:
     value: '0'
     label: 'Glance Image Cache Size (image_volume_cache_max_size_gb)'
-    description: 'Maximum size for Glance Image Cache [GB] 90 = no limit)'
+    description: 'Maximum size for Glance Image Cache [GB] (0 = no limit)'
     weight: 37
     type: "text"
     restrictions:

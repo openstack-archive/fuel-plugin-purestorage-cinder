@@ -74,3 +74,8 @@ or use the following Purity CLI command to obtain the VIP address:
 
   .. image:: ./_static/fc-options.png
      :width: 100%
+
+12. If configuring Cinder replication to a remote Pure Storage FlashArray then it is necessary to provide both the Management IP address of the target array and its API token. Replication of volumes will be performed using the default values provided by the driver, but these can be overriden in the plugin by selecting 'Manual' in the Replication Retention Configuration section of the plugin. On selecting this you will be presented with the default options that are adjustable.
+
+  .. image:: ./_static/replication-options.png
+     :width: 100%

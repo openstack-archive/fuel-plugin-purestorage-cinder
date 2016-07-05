@@ -85,25 +85,8 @@ class plugin_purestorage_cinder::controller (
     }
 
     if $glance_image_cache{
-      keystone_tenant { 'cinder_internal_tenant':
-                           ensure  => present,
-                           enabled => True,
-                      }
-      keystone_user { 'cinder_internal_user':
-                           ensure  => present,
-                           enabled => True,
-                    }
-      keystone_role { 'admin':
-                           ensure => present,
-                    }
-      keystone_user_role { 'cinder_internal_user@cinder_internal_tenant':
-                           roles => ['admin'],
-                           ensure => present
-                         }
-
       cinder_config {
-#             "DEFAULT/cinder_internal_tenant_project_id": value => $::cinder_tenant;
-#             "DEFAULT/cinder_internal_tenant_user_id": value => $::cinder_user;
+# Force both cinter internal tenant and user to be a fixed values, keeping plugin idempotent
              "DEFAULT/cinder_internal_tenant_project_id": value => "123456789abcdef123456789abcdef12";
              "DEFAULT/cinder_internal_tenant_user_id": value => "123456789abcdef123456789abcdef13";
              "$section/image_volume_cache_enabled": value => $glance_image_cache;

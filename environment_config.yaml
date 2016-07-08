@@ -1,12 +1,6 @@
 attributes:
   metadata:
     group: 'storage'
-  multibackend:
-    value: true
-    label: 'Multi-backend enabled'
-    description: 'Pure Storage will be used in a multi-backend environment'
-    weight: 10
-    type: "checkbox"
   pure_cg:
     value: "false"
     values:

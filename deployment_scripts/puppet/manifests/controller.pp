@@ -14,13 +14,9 @@
 #    under the License.
 #
 $plugin_settings = hiera('fuel-plugin-purestorage-cinder')
-$backend_name = 'pure'
-$previous_backends = ''
 
 class { 'plugin_purestorage_cinder::controller' :
-  backend_name   => $backend_name,
-  backends  => $previous_backends,
-  multibackend => $plugin_settings['multibackend'],
+  section   => 'pure',
   glance_image_cache => $plugin_settings['pure_glance_image_cache'],
   glance_image_count => $plugin_settings["pure_glance_cache_count"],
   glance_image_size => $plugin_settings["pure_glance_cache_size"],

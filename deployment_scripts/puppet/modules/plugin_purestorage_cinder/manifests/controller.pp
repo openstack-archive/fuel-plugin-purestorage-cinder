@@ -14,9 +14,7 @@
 #
 
 class plugin_purestorage_cinder::controller (
-    $backend_name,
-    $backends,
-    $multibackend,
+    $section,
     $glance_image_cache,
     $glance_image_count,
     $glance_image_size,
@@ -58,6 +56,16 @@ class plugin_purestorage_cinder::controller (
     include ::cinder::client
     include ::keystone::client
 
+    ini_subsetting {'enable_cinder_pure_backend':
+      ensure             => present,
+      section            => 'DEFAULT',
+      key_val_separator  => '=',
+      path               => '/etc/cinder/cinder.conf',
+      setting            => 'enabled_backends',
+      subsetting         => "${section}",
+      subsetting_separator => ',',
+    }
+
     package {"purestorage":
       ensure => "installed",
       provider => pip
@@ -70,18 +78,14 @@ class plugin_purestorage_cinder::controller (
       Package[$::cinder::params::volume_package] -> Cinder_config<||>
     }
 
-    if $multibackend{
-      $section = $backend_name
-      cinder_type {'pure_vol':
-        ensure => present,
-        properties => ['volume_backend_name=$section'],
-      }
-      cinder_config {
-        "DEFAULT/default_volume_type": value => 'pure_vol';
-        "DEFAULT/enabled_backends": value => "${backend_name}";
-      }
-    } else {
-      $section = 'DEFAULT'
+#    $section = $backend_name
+    cinder_type {'pure_vol':
+      ensure => present,
+      properties => ['volume_backend_name=pure'],
+    }
+    cinder_config {
+      "DEFAULT/default_volume_type": value => 'pure_vol';
+#      "DEFAULT/enabled_backends": value => "${section}";
     }
 
     if $glance_image_cache{

@@ -1,17 +1,8 @@
 # Deployment tasks
-- id: configure_internal_tenant
-  role: ['primary-controller', 'controller']
-  required_for: [configure_purestorage_controller]
-  requires: [post_deployment_start]
-  type: puppet
-  parameters:
-    puppet_manifest: puppet/manifests/tenant.pp
-    puppet_modules:  "puppet/modules/:/etc/puppet/modules/"
-    timeout: 360
 - id: configure_purestorage_controller
   role: ['primary-controller', 'controller']
   required_for: [post_deployment_end]
-  requires: [configure_internal_tenant]
+  requires: [post_deployment_start]
   type: puppet
   parameters:
     puppet_manifest: puppet/manifests/controller.pp

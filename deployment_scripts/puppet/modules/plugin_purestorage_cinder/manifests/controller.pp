@@ -78,6 +78,15 @@ class plugin_purestorage_cinder::controller (
       Package[$::cinder::params::volume_package] -> Cinder_config<||>
     }
 
+# Provided patched version of Pure Cinder driver covered by https://review.openstack.org/#/c/339835
+    file {'pure.py':
+      path    => '/usr/lib/python2.7/dist-packages/cinder/volume/drivers/pure.py',
+      mode    => '0644',
+      owner   => root,
+      group   => root,
+      source  => 'puppet:///modules/plugin_purestorage_cinder/pure.py',
+      }
+
 #    $section = $backend_name
     cinder_type {'pure_vol':
       ensure => present,

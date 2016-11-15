@@ -17,24 +17,24 @@ class plugin_purestorage_cinder::common {
 
   include plugin_purestorage_cinder::params
 
-  package {$plugin_purestorage_cinder::params::pip_package_name:
+  package { $plugin_purestorage_cinder::params::pip_package_name:
     ensure => 'installed'
   }
-  package {$plugin_purestorage_cinder::params::iscsi_package_name:
+  package { $plugin_purestorage_cinder::params::iscsi_package_name:
     ensure => 'installed'
   }
-  package {$plugin_purestorage_cinder::params::multipath_package_name:
+  package { $plugin_purestorage_cinder::params::multipath_package_name:
     ensure => 'installed'
   }
   case $::osfamily {
     'Debian': {
-      service {$plugin_purestorage_cinder::params::iscsi_service_name:
+      service { $plugin_purestorage_cinder::params::iscsi_service_name:
         ensure     => 'running',
         enable     => true,
         hasrestart => true,
         require    => Package[$plugin_purestorage_cinder::params::iscsi_package_name],
       }
-      file {'99-pure-storage.rules':
+      file { '99-pure-storage.rules':
         path    => '/lib/udev/rules.d/99-pure-storage.rules',
         mode    => '0644',
         owner   => root,
@@ -43,7 +43,7 @@ class plugin_purestorage_cinder::common {
       }
     }
     'RedHat': {
-      file {'99-pure-storage.rules':
+      file { '99-pure-storage.rules':
         path    => '/etc/udev/rules.d/99-pure-storage.rules',
         mode    => '0644',
         owner   => root,
@@ -56,7 +56,7 @@ class plugin_purestorage_cinder::common {
     }
   }
 
-  service {$plugin_purestorage_cinder::params::multipath_service_name:
+  service { $plugin_purestorage_cinder::params::multipath_service_name:
     ensure     => 'running',
     enable     => true,
     hasrestart => true,
@@ -65,7 +65,7 @@ class plugin_purestorage_cinder::common {
     require    => Package[$plugin_purestorage_cinder::params::multipath_package_name],
   }
 
-  file {'multipath.conf':
+  file { 'multipath.conf':
     path    => '/etc/multipath.conf',
     mode    => '0644',
     owner   => root,

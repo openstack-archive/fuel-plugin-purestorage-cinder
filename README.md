@@ -15,7 +15,7 @@ Requirements
 
 | Requirement                                              | Version/Comment |
 |----------------------------------------------------------|-----------------|
-| Mirantis OpenStack compatibility                         | >= 9.0          |
+| Mirantis OpenStack compatibility                         | >= 9.1          |
 | Access to FlashArray VIP via cinder-volume node          |                 |
 | Access to FlashArray VIP via compute/cinder-volume nodes |                 |
 | iSCSI/FC initiator on all compute/cinder-volume nodes    |                 |

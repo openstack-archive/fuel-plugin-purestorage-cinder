@@ -11,7 +11,7 @@ Pure Storage Cinder Plugin installation
 1. Download the plugin from the `Fuel Plugins Catalog <https://www.mirantis.com/products/openstack-drivers-and-plugins/fuel-plugins/>`_.
 
 2. Copy the plugin to an already installed Fuel Master node. If you do not
-   have the Fuel Master node yet, please follow `the instructions <https://docs.mirantis.com/openstack/fuel/fuel-9.0/quickstart-guide.html#quickstart-guide>`_:
+   have the Fuel Master node yet, please follow `the instructions <https://docs.mirantis.com/openstack/fuel/fuel-9.1/quickstart-guide/index.html>`_:
 
    # scp fuel-plugin-purestorage-cinder-3.0-3.0.0-1.noarch.rpm root@:<the_Fuel_Master_node_IP>:/tmp``
 
@@ -31,9 +31,9 @@ Pure Storage Cinder Plugin installation
      ---|--------------------------------|---------|----------------
      1  | fuel-plugin-purestorage-cinder | 3.0.0   | 4.0.0
 
-6. After the plugin is installed, `create a new OpenStack environment <https://docs.mirantis.com/openstack/fuel/fuel-9.0/user-guide.html#create-a-new-openstack-environment>`_ using the Fuel UI Wizard.
+6. After the plugin is installed, `create a new OpenStack environment <http://docs.openstack.org/developer/fuel-docs/userdocs/fuel-user-guide/create-environment.html>`_ using the Fuel UI Wizard.
 
-7. `Configure your environment <https://docs.mirantis.com/openstack/fuel/fuel-9.0/user-guide.html#configure-your-environment>`_.
+7. `Configure your environment <http://docs.openstack.org/developer/fuel-docs/userdocs/fuel-user-guide/configure-environment.html>`_.
 
 8. Open the Settings tab of the Fuel Web UI and scroll down the page. Select the Storage section to enable Pure Storage driver in Cinder plugin checkbox.
 
